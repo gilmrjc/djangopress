@@ -9,6 +9,7 @@ class Post(models.Model):
     """Post Model."""
     author = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
     title = models.TextField()
+    slug = models.SlugField(max_length=100)
     content = models.TextField()
     excerpt = models.TextField()
     creation_date = models.DateTimeField()
