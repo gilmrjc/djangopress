@@ -9,7 +9,7 @@
 
 # Add files or directories to the blacklist. They should be base names, not
 # paths.
-ignore=migrations,apps.py,manage.py,settings.py,wsgi.py
+ignore=migrations,apps.py,admin.py,manage.py,settings.py,wsgi.py
 
 # Pickle collected data for later comparisons.
 persistent=yes

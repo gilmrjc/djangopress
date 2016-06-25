@@ -1,3 +1,14 @@
+astroid==1.4.6
+colorama==0.3.7
 Django==1.9.7
 django-debug-toolbar==1.4
+lazy-object-proxy==1.2.2
+py==1.4.31
+pylint==1.5.6
+pylint-django==0.7.2
+pylint-plugin-utils==0.2.3
+pytest==2.9.2
+pytest-pylint==0.5.0
+six==1.10.0
 sqlparse==0.1.19
+wrapt==1.10.8
