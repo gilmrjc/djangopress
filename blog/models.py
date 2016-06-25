@@ -120,7 +120,6 @@ class Term(models.Model):
 
 class UserMeta(models.Model):
     "UserMeta information."""
-    umeta_id = models.BigIntegerField(primary_key=True)
-    user_id = models.BigIntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
     meta_key = models.CharField(max_length=255, blank=True, null=True)
     meta_value = models.TextField(blank=True, null=True)

@@ -1,7 +1,26 @@
-import urllib
+
 from django.conf import settings
 from django.views import generic
-from blog.models import Post
+from django.shortcuts import render
+
+from blog.models import Post, Option
+
+def home(request):
+    title, _ = Option.objects.get_or_create(name='title',
+                                            defaults={'value': 'Blog'}
+                                           )
+    tagline = 'Un blog mas'
+    tagline, _ = Option.objects.get_or_create(name='tagline',
+                                              defaults={'value': tagline}
+                                             )
+    title = title.value
+    tagline = tagline.value
+    posts = Post.objects.all()
+    return render(request, 'blog/base.html', {'title': title,
+                                              'tagline': tagline, 
+                                              'posts': posts,
+                                             })
+
 
 class PostDetail(generic.detail.DetailView):
     context_object_name = 'post'
@@ -13,7 +32,3 @@ class PostDetail(generic.detail.DetailView):
         context = super().get_context_data(**kwargs)
         post_url = self.request.build_absolute_uri(self.request.path)
         context.update({'post_url': post_url})
-
-    def get_object(self):
-        self.kwargs['slug'] = urllib.parse.quote(self.kwargs['slug'].encode('utf-8')).lower()
-        return super(PostDetail, self).get_object()
