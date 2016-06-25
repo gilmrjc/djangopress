@@ -3,7 +3,7 @@ from django.conf import settings
 from django.views import generic
 from blog.models import Post
 
-class PostDetail(generic.dates.DateDetailView):
+class PostDetail(generic.detail.DetailView):
     context_object_name = 'post'
     date_field = 'creation_date'
     month_format = '%m'

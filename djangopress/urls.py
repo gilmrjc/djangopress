@@ -18,7 +18,7 @@ from django.contrib import admin
 from blog.views import PostDetail
 
 urlpatterns = [
-    url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<slug>[^/]+)/$',
+    url(r'post/(?P<slug>[\w\d-]+)/$',
         PostDetail.as_view(), name='wp_object_detail'),
     url(r'^admin/', admin.site.urls),
 ]
