@@ -1,5 +1,10 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
 Title
 {{ post.title }}
 {{ post.status }}
 
 {{ post }} 
+{{ post_url }}
+{% endblock %}

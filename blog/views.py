@@ -16,7 +16,7 @@ def home(request):
     title = title.value
     tagline = tagline.value
     posts = Post.objects.all()
-    return render(request, 'blog/base.html', {'title': title,
+    return render(request, 'blog/index.html', {'title': title,
                                               'tagline': tagline, 
                                               'posts': posts,
                                              })
