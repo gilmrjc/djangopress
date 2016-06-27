@@ -11,3 +11,5 @@ libs
 .coverage
 .coverage*
 media
+.testmondata
+.tmontmp/

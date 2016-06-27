@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 
 class Post(models.Model):
@@ -27,6 +28,11 @@ class Post(models.Model):
     menu_order = models.IntegerField()
     post_type = models.CharField(max_length=20)
     post_mime_type = models.CharField(max_length=100)
+
+    @property
+    def get_absolute_url(self):
+        """Get the absolute url of a post"""
+        return reverse('post', kwargs={'slug': self.slug})
 
 
 class CommentMeta(models.Model):
@@ -68,8 +74,7 @@ class Link(models.Model):
 class Option(models.Model):
     """Option."""
     name = models.CharField(unique=True, max_length=191)
-    value = models.TextField()
-    autoload = models.CharField(max_length=20)
+    value = models.CharField(max_length=255)
 
 
 class PostMeta(models.Model):

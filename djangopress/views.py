@@ -3,7 +3,7 @@
 from django.views import generic
 from django.shortcuts import render
 
-from blog.models import Post, Option
+from djangopress.models import Post, Option
 
 def home(request):
     """Home view."""

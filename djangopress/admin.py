@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, Option, UserMeta
+from djangopress.models import Post, Option, UserMeta
 
 admin.site.register(UserMeta)
 admin.site.register(Option)
