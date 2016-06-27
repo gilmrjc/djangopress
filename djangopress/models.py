@@ -4,13 +4,14 @@ from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 
 class Post(models.Model):
     """Post Model."""
     author = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
-    title = models.TextField()
-    slug = models.SlugField(max_length=100)
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, blank=True)
     content = models.TextField()
     excerpt = models.TextField()
     creation_date = models.DateTimeField()
@@ -33,6 +34,15 @@ class Post(models.Model):
     def get_absolute_url(self):
         """Get the absolute url of a post"""
         return reverse('post', kwargs={'slug': self.slug})
+
+    def __str__(self):
+        """String representation of Post object"""
+        return self.title
+
+    def save(self, *args, **kwargs):
+        """Save the Post object and create a slug"""
+        self.slug = slugify(self.title)
+        super().save(self, *args, **kwargs)
 
 
 class CommentMeta(models.Model):
@@ -75,6 +85,10 @@ class Option(models.Model):
     """Option."""
     name = models.CharField(unique=True, max_length=191)
     value = models.CharField(max_length=255)
+
+    def __str__(self):
+        """String representation of Option object"""
+        return self.name
 
 
 class PostMeta(models.Model):

@@ -18,9 +18,9 @@ def home(request):
     tagline = tagline.value
     posts = Post.objects.all()
     return render(request, 'djangopress/index.html', {'title': title,
-                                               'tagline': tagline,
-                                               'posts': posts,
-                                              })
+                                                      'tagline': tagline,
+                                                      'posts': posts,
+                                                     })
 
 
 class PostDetail(generic.detail.DetailView): # pylint: disable=too-many-ancestors
