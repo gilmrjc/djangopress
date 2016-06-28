@@ -1,5 +1,4 @@
 """Test for djangopress models."""
-import pytest
 from model_mommy import mommy
 
 from django.template.defaultfilters import slugify
@@ -12,9 +11,9 @@ def test_post_str():
     assert str(post) == post.title
 
 
-@pytest.mark.django_db
-def test_post_slug():
+def test_post_slug(mocker):
     """Test post slug is equal to post titlepost title slugified"""
+    save = mocker.patch('django.db.models.Model.save', autospec=True)
     post = mommy.make(Post)
     assert post.slug == slugify(post.title)
 
