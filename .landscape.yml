@@ -9,6 +9,7 @@ pep8:
 
 test-warnings: true
 
-dodgy:
-  - disable
-    - secret
+ignore-patterns:
+  - settings.py
+  - manage.py
+  - wsgi.py
