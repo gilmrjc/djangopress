@@ -9,7 +9,6 @@ libs
 .venv
 .cache
 .coverage
-.coverage*
 media
 .testmondata
 .tmontmp/
