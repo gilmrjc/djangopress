@@ -8,3 +8,7 @@ pep8:
   full: true
 
 test-warnings: true
+
+dodgy:
+  - disable
+    - secret
