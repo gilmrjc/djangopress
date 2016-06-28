@@ -15,6 +15,6 @@ script:
   - tox
   
 after_success:
+  - pip install coverage codacy-coverage
   - covegare xml
-  - pip install codacy-coverage
   - python-codacy-coverage -r coverage.xml
