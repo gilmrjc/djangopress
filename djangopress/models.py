@@ -9,7 +9,9 @@ from django.template.defaultfilters import slugify
 
 class Post(models.Model):
     """Post Model."""
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE
+                              )
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True)
     content = models.TextField()
@@ -47,7 +49,7 @@ class Post(models.Model):
 
 class CommentMeta(models.Model):
     """Meta information of comments."""
-    comment = models.ForeignKey('Comment', models.CASCADE)
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
     key = models.CharField(max_length=255)
     value = models.TextField(blank=True, null=True)
 
@@ -55,7 +57,9 @@ class CommentMeta(models.Model):
 class Comment(models.Model):
     """Comment."""
     post = models.ForeignKey(Post, models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE
+                              )
     creation_date = models.DateTimeField()
     content = models.TextField()
     comment_karma = models.IntegerField()
@@ -139,6 +143,8 @@ class Term(models.Model):
 
 class UserMeta(models.Model):
     "UserMeta information."""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE
+                            )
     meta_key = models.CharField(max_length=255, blank=True, null=True)
     meta_value = models.TextField(blank=True, null=True)
