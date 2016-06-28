@@ -12,3 +12,4 @@ libs
 media
 .testmondata
 .tmontmp/
+.tox

@@ -1,0 +1,20 @@
+language: python
+
+python:
+  - "3.4"
+  - "3.5"
+
+env:
+  - TOXENV=py34
+  - TOXENV=py35
+
+install:
+  - pip install tox
+  
+script:
+  - tox
+  
+after_success:
+  - covegare xml
+  - pip install codacy-coverage
+  - python-codacy-coverage -r coverage.xml
