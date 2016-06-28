@@ -1,5 +1,8 @@
 language: python
 
+python:
+  - "3.5"
+
 env:
   - TOXENV=py34-dj18
   - TOXENV=py34-dj19
@@ -13,6 +16,6 @@ script:
   - tox
   
 after_success:
-  - pip install coverage codacy-coverage
+  - pip install coverage django-coverage-plugin codacy-coverage
   - coverage xml
   - python-codacy-coverage -r coverage.xml
