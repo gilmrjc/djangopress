@@ -2,6 +2,16 @@
  * Globals
  */
 
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
@@ -108,6 +118,7 @@ h6, .h6 {
 .sidebar-module {
   padding: 15px;
   margin: 0 -15px 15px;
+  border-top: solid 3px #000;
 }
 .sidebar-module-inset {
   padding: 15px;
