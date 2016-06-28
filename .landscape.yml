@@ -1,0 +1,10 @@
+python-targets:
+  - 3
+
+uses:
+  - django
+
+pep8:
+  full: true
+
+test-warnings: true
