@@ -15,8 +15,9 @@ def test_post_str():
 
 def test_post_slug(mocker):
     """Test post slug is equal to post titlepost title slugified."""
-    mocker.patch('django.db.models.Model.save', autospec=True)
+    save = mocker.patch('django.db.models.Model.save', autospec=True)
     post = mommy.make(Post)
+    save.assert_called_with(post)
     assert post.slug == slugify(post.title)
 
 

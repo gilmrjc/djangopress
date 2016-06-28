@@ -3,28 +3,36 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.conf import settings
+from django.utils.timezone import now
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 
 class Post(models.Model):
     """Post Model."""
+
+    STATUS_CHOICES = (('D', 'Draft'),
+                      ('PB', 'Public'),
+                      ('PV', 'Private'),
+                      ('T', 'Trash'),
+                      )
+
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE
                                )
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True)
     content = models.TextField()
-    excerpt = models.TextField()
-    creation_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20)
+    excerpt = models.TextField(blank=True, null=True)
+    creation_date = models.DateTimeField(blank=True, default=now())
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     comment_status = models.CharField(max_length=20)
     ping_status = models.CharField(max_length=20)
     password = models.CharField(max_length=20)
     post_name = models.CharField(max_length=200)
     to_ping = models.TextField()
     pinged = models.TextField()
-    modified_date = models.DateTimeField(auto_now=True)
+    modified_date = models.DateTimeField(editable=False)
     content_filtered = models.TextField()
     parent = models.BigIntegerField()
     guid = models.CharField(max_length=255)
@@ -44,7 +52,8 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         """Save the Post object and create a slug"""
         self.slug = slugify(self.title)
-        super().save(self, *args, **kwargs)
+        self.modified_date = now()
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-creation_date']
