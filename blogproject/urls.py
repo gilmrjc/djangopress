@@ -18,7 +18,7 @@ from django.contrib import admin
 from djangopress.views import PostDetail, HomeView
 
 urlpatterns = [
-    url(r'^$', HomeView),
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^post/(?P<slug>[\w\d-]+)/$',
         PostDetail.as_view(), name='post'),
     url(r'^admin/', admin.site.urls),
