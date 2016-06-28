@@ -106,7 +106,7 @@ bad-names=foo,bar,baz,toto,tutu,tata
 name-group=
 
 # Include a hint for the correct naming format with invalid-name
-include-naming-hint=no
+include-naming-hint=yes
 
 # Regular expression matching correct constant names
 const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__)|(url|urlpatterns|register))$
@@ -127,7 +127,7 @@ module-rgx=(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$
 module-name-hint=(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$
 
 # Regular expression matching correct function names
-function-rgx=[a-z_][a-z0-9_]{2,30}$
+function-rgx=[a-z_][a-z0-9_]{2,35}$
 
 # Naming hint for function names
 function-name-hint=[a-z_][a-z0-9_]{2,30}$
