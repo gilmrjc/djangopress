@@ -9,7 +9,7 @@ class DjangoPressMixin(object):  # pylint: disable=too-few-public-methods
     """Mixin to load the basic information to template context."""
     def get_context_data(self, **kwargs):
         """Add title and tagline to the template context."""
-        context = super().get_context_data(**kwargs)
+        context = super(DjangoPressMixin, self).get_context_data(**kwargs)
         title, _ = Option.objects.get_or_create(name='title',
                                                 defaults={'value': 'Blog'}
                                                 )
@@ -28,7 +28,7 @@ class HomeView(DjangoPressMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         """Add posts to the template context."""
-        context = super().get_context_data(**kwargs)
+        context = super(HomeView, self).get_context_data(**kwargs)
         context['posts'] = Post.objects.all()
         return context
 
