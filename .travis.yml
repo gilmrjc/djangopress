@@ -9,7 +9,7 @@ install:
   
 script:
   - coverage erase
-  - tox
+  - tox --skip-missing
   
 after_success:
   - coverage combine

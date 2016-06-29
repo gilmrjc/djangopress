@@ -13,3 +13,4 @@ media
 .testmondata
 .tmontmp/
 .tox
+.coverage.*
