@@ -43,7 +43,7 @@ class Post(models.Model):
     @property
     def get_absolute_url(self):
         """Get the absolute url of a post"""
-        return reverse('post', kwargs={'slug': self.slug})
+        return reverse('djangopress:post', kwargs={'slug': self.slug})
 
     def __str__(self):
         """String representation of Post object"""
