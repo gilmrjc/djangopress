@@ -25,7 +25,9 @@ def test_post_absolute_url(mocker):
     """Test post's absolute url."""
     mocker.patch('django.db.models.Model.save', autospec=True)
     post = mommy.make(Post)
-    assert post.get_absolute_url == reverse("post", kwargs={'slug': post.slug})
+    assert post.get_absolute_url == reverse("djangopress:post",
+                                            kwargs={'slug': post.slug}
+                                            )
 
 
 def test_option_str():

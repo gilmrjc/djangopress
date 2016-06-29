@@ -1,9 +1,11 @@
 {% extends 'djangopress/base.html' %}
 
 {% block content %}
-          <div class="blog-post">
-            <h2 class="blog-post-title">{{ post.title }}</h2>
-            <p class="blog-post-meta">{{ post.creation_date.date }} by <a href="#">{{ post.author }}</a></p>
-            {{ post.content|linebreaks }}
-          </div><!-- /.blog-post -->
+<div class="col-sm-8">
+  <div class="blog-post">
+    <h2 class="blog-post-title">{{ post.title }}</h2>
+    <p class="blog-post-meta">{{ post.creation_date.date }} by <a href="#">{{ post.author }}</a></p>
+    {{ post.content|linebreaks }}
+  </div>
+</div>
 {% endblock %}

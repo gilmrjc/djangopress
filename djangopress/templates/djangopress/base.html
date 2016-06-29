@@ -7,14 +7,14 @@
   </head>
   <body>
     <div class="container">
-      <div class="blog-header">
-        <h1 class="blog-title"><a href="{% url 'home' %}">{{ title }}</a></h1>
-        <p class="lead blog-description">{{ tagline }}</p>
-      </div>
+      {% block header %}
+        {% include 'djangopress/_header.html' %}
+      {% endblock %}
       <div class="row">
         {% block content %}
         {% endblock %}
         {% block sidebar %}
+          {% include 'djangopress/_sidebar.html' %}
         {% endblock %}
       </div>
     </div>

@@ -1,26 +1,21 @@
 {% extends 'djangopress/base.html' %}
 
 {% block content %}
-        <div class="col-sm-8 blog-main">
-
-          {% for post in posts %}
-          <div class="blog-post">
-            <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-            <p class="blog-post-meta">{{ post.creation_date.date }} by <a href="#">{{ post.author }}</a></p>
-            {{ post.content|linebreaks }}
-          </div><!-- /.blog-post -->
-          {% endfor %}
-
-          <nav>
-            <ul class="pager">
-              <li><a href="#">Previous</a></li>
-              <li><a href="#">Next</a></li>
-            </ul>
-          </nav>
-
-        </div><!-- /.blog-main -->
-{% endblock %}
-
-{% block sidebar %}
-{% include 'djangopress/_sidebar.html' %}
+<div class="col-sm-8 blog-main">
+  {% for post in posts %}
+    <div class="blog-post">
+      <h2 class="blog-post-title">
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+      </h2>
+      <p class="blog-post-meta">{{ post.creation_date.date }} by <a href="#">{{ post.author }}</a></p>
+      {{ post.content|linebreaks }}
+    </div>
+  {% endfor %}
+  <nav>
+    <ul class="pager">
+      <li><a href="#">Previous</a></li>
+      <li><a href="#">Next</a></li>
+    </ul>
+  </nav>
+</div>
 {% endblock %}
