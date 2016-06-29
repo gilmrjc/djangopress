@@ -1,5 +1,5 @@
 [run]
-source = .
+source = djangopress
 branch = True
 plugins =
     django_coverage_plugin
