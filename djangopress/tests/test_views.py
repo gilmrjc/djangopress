@@ -10,12 +10,10 @@ from djangopress.views import HomeView
 def home_view_response(rf, mocker):
     """Generate a HomeView response object."""
     option = mocker.patch('djangopress.views.Option.objects.get_or_create')
-    option.return_value = (Mock(), None)
-    post = mocker.patch('djangopress.models.Post.objects.all')
+    mocker.patch('djangopress.models.Post.objects.all')
+    option.return_value = Mock(), None
     request = rf.get('/')
     response = HomeView.as_view()(request)
-    assert option.called
-    assert post.called
     return response
 
 
