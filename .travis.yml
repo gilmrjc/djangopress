@@ -6,13 +6,15 @@ python:
   - "3.5"
 
 install:
+  - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter  
   - pip install tox-travis
   
 script:
+  - coverage erase
   - tox
   
 after_success:
-  - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter  
+  - coverage combine
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   - codeclimate-test-reporter

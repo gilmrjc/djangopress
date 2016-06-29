@@ -3,6 +3,7 @@ source = .
 branch = True
 plugins =
     django_coverage_plugin
+parallel = True
 [report]
 show_missing = True
 fail_under = 80
