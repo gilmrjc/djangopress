@@ -1,5 +1,5 @@
 """Views for djangopress"""
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 
 from djangopress.models import Post, Option
@@ -22,15 +22,12 @@ class DjangoPressMixin(object):  # pylint: disable=too-few-public-methods
         return context
 
 
-class HomeView(DjangoPressMixin, TemplateView):
+class HomeView(DjangoPressMixin,  # pylint:disable=too-many-ancestors
+               ListView):
     """Home view."""
     template_name = 'djangopress/index.html'
-
-    def get_context_data(self, **kwargs):
-        """Add posts to the template context."""
-        context = super(HomeView, self).get_context_data(**kwargs)
-        context['posts'] = Post.objects.all()
-        return context
+    model = Post
+    context_object_name = 'posts'
 
 
 class PostDetail(DjangoPressMixin,  # pylint: disable=too-many-ancestors
