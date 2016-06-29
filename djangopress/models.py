@@ -24,7 +24,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=100, blank=True)
     content = models.TextField()
     excerpt = models.TextField(blank=True, null=True)
-    creation_date = models.DateTimeField(blank=True, default=now())
+    creation_date = models.DateTimeField(blank=True, default=now)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     comment_status = models.CharField(max_length=20)
     ping_status = models.CharField(max_length=20)
