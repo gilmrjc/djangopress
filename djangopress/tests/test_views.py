@@ -4,14 +4,18 @@ try:
 except ImportError:
     from mock import Mock
 
+from model_mommy import mommy
+
 from djangopress.views import HomeView
+from djangopress.models import Post
 
 
-def home_view_response(rf, mocker):
+def home_view_response(rf, mocker, posts=5):
     """Generate a HomeView response object."""
     option = mocker.patch('djangopress.views.Option.objects.get_or_create')
-    mocker.patch('djangopress.models.Post.objects.all')
     option.return_value = Mock(), None
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock.return_value = mommy.prepare(Post, _quantity=posts)
     request = rf.get('/')
     response = HomeView.as_view()(request)
     return response

@@ -28,6 +28,7 @@ class HomeView(DjangoPressMixin,  # pylint:disable=too-many-ancestors
     template_name = 'djangopress/index.html'
     model = Post
     context_object_name = 'posts'
+    paginate_by = 4
 
 
 class PostDetail(DjangoPressMixin,  # pylint: disable=too-many-ancestors
