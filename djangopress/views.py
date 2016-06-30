@@ -22,13 +22,19 @@ class DjangoPressMixin(object):  # pylint: disable=too-few-public-methods
         return context
 
 
-class HomeView(DjangoPressMixin,  # pylint:disable=too-many-ancestors
+class HomeView(DjangoPressMixin,  # pylint: disable=too-many-ancestors
                ListView):
     """Home view."""
     template_name = 'djangopress/index.html'
     model = Post
     context_object_name = 'posts'
-    paginate_by = 4
+    posts_per_page, _ = Option.objects.get_or_create(name='posts_per_page',
+                                                     defaults={'value': '5'}
+                                                     )
+    try:
+        paginate_by = int(posts_per_page.value)
+    except ValueError:
+        paginate_by = 5
 
 
 class PostDetail(DjangoPressMixin,  # pylint: disable=too-many-ancestors
