@@ -31,3 +31,4 @@ exclude_paths:
   - "manage.py"
   - "**.ini"
   - "**/dashboard/vendors/**/*"
+  - "**/dashboard/bootstrap/**/*"
