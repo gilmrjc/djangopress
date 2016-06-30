@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'djangopress',
-    'django_extensions',
 ]
 
 MIDDLEWARE_CLASSES = [
