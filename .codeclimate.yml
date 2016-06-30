@@ -11,6 +11,8 @@ engines:
     enabled: true
   radon:
     enabled: true
+  pep8:
+    enabled: true
 ratings:
   paths:
   - "**.css"
@@ -28,3 +30,4 @@ exclude_paths:
   - "LICENSE"
   - "manage.py"
   - "**.ini"
+  - "**/dashboard/vendors/**/*"

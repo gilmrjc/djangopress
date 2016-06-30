@@ -4,7 +4,7 @@ python:
   - "3.5"
 
 install:
-  - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter  
+  - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter coveralls 
   - pip install tox
   
 script:
@@ -17,3 +17,5 @@ after_success:
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   - codeclimate-test-reporter
+  - bash <(curl -s https://codecov.io/bash)
+  - coveralls
