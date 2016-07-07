@@ -28,7 +28,16 @@ class HomeView(DjangoPressMixin,  # pylint:disable=too-many-ancestors
     template_name = 'djangopress/index.html'
     model = Post
     context_object_name = 'posts'
-    paginate_by = 4
+
+    def get_paginate_by(self, queryset):
+        posts, _ = Option.objects.get_or_create(name='posts_per_page',
+                                                defaults={'value': '5'}
+                                                )
+        try:
+            number_of_post = int(posts.value)
+        except ValueError:
+            number_of_post = 5
+        return number_of_post
 
 
 class PostDetail(DjangoPressMixin,  # pylint: disable=too-many-ancestors
