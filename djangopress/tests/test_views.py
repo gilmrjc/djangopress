@@ -81,7 +81,7 @@ def test_home_view_pagination_6_posts(rf, mocker):
 
 
 def test_home_view_custom_pagination(rf, mocker):
-    """Test a custom pagination value"""
+    """Test a custom pagination value."""
     mocker.patch('djangopress.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub(3)
                  )
@@ -90,6 +90,18 @@ def test_home_view_custom_pagination(rf, mocker):
     request = rf.get(reverse('djangopress:home'))
     response = HomeView.as_view()(request)
     assert not response.context_data['is_paginated']
+
+
+def test_home_view_custom_pagination_pag(rf, mocker):
+    """Test a custom pagination value."""
+    mocker.patch('djangopress.views.Option.objects.get_or_create',
+                 new=option_get_or_create_stub(3)
+                 )
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock.return_value = mommy.prepare(Post, _quantity=4)
+    request = rf.get(reverse('djangopress:home'))
+    response = HomeView.as_view()(request)
+    assert response.context_data['is_paginated']
 
 
 def test_home_view_pagination_pages(rf, mocker):
