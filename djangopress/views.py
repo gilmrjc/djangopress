@@ -29,7 +29,8 @@ class HomeView(DjangoPressMixin,  # pylint:disable=too-many-ancestors
     model = Post
     context_object_name = 'posts'
 
-    def get_paginate_by(self, queryset):
+    @staticmethod
+    def get_paginate_by(queryset):
         posts, _ = Option.objects.get_or_create(name='posts_per_page',
                                                 defaults={'value': '5'}
                                                 )
