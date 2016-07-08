@@ -11,11 +11,27 @@
       {{ post.content|linebreaks }}
     </div>
   {% endfor %}
-  <nav>
-    <ul class="pager">
-      <li><a href="#">Previous</a></li>
-      <li><a href="#">Next</a></li>
-    </ul>
-  </nav>
-</div>
+  {% if is_paginated %}
+    <nav>
+        {{ page_obj.has_previous }}
+        {{ page_obj.number }}
+      <ul class="pager">
+        {% if page_obj.has_previous %}
+          <li>
+            <a href="{% url 'djangopress:page' page=page_obj.previous_page_number %}">
+              Previous
+            </a>
+          </li>
+        {% endif %}
+        {% if page_obj.has_next %}
+          <li>
+            <a href="{% url 'djangopress:page' page=page_obj.next_page_number %}">
+              Next
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+  </div>
 {% endblock %}

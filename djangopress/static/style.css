@@ -135,7 +135,10 @@ h6, .h6 {
 /* Pagination */
 .pager {
   margin-bottom: 60px;
-  text-align: left;
+  text-align: center;
+}
+.pager > li {
+  margin: auto 20px;
 }
 .pager > li > a {
   width: 140px;
