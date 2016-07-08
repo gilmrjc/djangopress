@@ -92,7 +92,7 @@ def test_home_view_custom_pagination(rf, mocker):
     assert not response.context_data['is_paginated']
 
 
-def test_home_view_more_post(rf, mocker):
+def test_home_view_pagination_pages(rf, mocker):
     """Test the pagination of the homepage."""
     mocker.patch('djangopress.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub(5)
@@ -102,3 +102,27 @@ def test_home_view_more_post(rf, mocker):
     request = rf.get(reverse('djangopress:page', kwargs={'page': 2}))
     response = HomeView.as_view()(request, page=2)
     assert response.context_data['page_obj'].number == 2
+
+
+def test_bad_pagination_option(rf, mocker):
+    """Test the behaviour when a bad pagination option is given."""
+    mocker.patch('djangopress.views.Option.objects.get_or_create',
+                 new=option_get_or_create_stub('a')
+                 )
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock.return_value = mommy.prepare(Post, _quantity=6)
+    request = rf.get(reverse('djangopress:home'))
+    response = HomeView.as_view()(request)
+    assert 'is_paginated' in response.context_data
+
+
+def test_default_pagination_value(rf, mocker):
+    """Test the default value when a bad pagination option is given."""
+    mocker.patch('djangopress.views.Option.objects.get_or_create',
+                 new=option_get_or_create_stub('a')
+                 )
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock.return_value = mommy.prepare(Post, _quantity=6)
+    request = rf.get(reverse('djangopress:home'))
+    response = HomeView.as_view()(request)
+    assert response.context_data['paginator'].per_page == 5
