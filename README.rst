@@ -36,5 +36,5 @@ Djangopress
 .. image:: https://img.shields.io/requires/github/gilmrjc/djangopress.svg
     :target: https://requires.io/github/gilmrjc/djangopress/requirements/?branch=master
 
- Djangopress is a extendable blog engine made to create blogs with easy theme
- support.
+Djangopress is a extendable blog engine made to create blogs with easy theme
+support.
