@@ -1,5 +1,5 @@
 {% spaceless %}<!DOCTYPE html>
-<html lang="es">
+<html{% if LANGUAGE_CODE %} lang="{{ LANGUAGE_CODE }}"{% endif %}>
   <head>
     {% block head %}
       {% include 'djangopress/_head.html' %}
