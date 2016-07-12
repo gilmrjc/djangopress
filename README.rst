@@ -39,6 +39,11 @@ Djangopress
 Djangopress is a extendable blog engine made to create blogs with easy theme
 support.
 
+**Note** Djangopress is `hosted on Gitlab.com
+<https://gitlab.com/gilmrjc/djangopress>`_ and there is a mirror in Github to
+easy collaboration. Please try to commit to the canonical repository instead of
+the mirror.
+
 Features
 ========
 
