@@ -17,21 +17,26 @@ def random_date(start, end):
     return start + random_delta
 
 
-def test_archive_list_tag():
+def test_archive_list_tag(mocker):
     """Test the archive_list tag."""
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts = mommy.prepare(Post, _quantity=20)
+    posts_mock.return_value = posts
     template_snippet = '{% load djangopress %}{% archive_list %}'
     Template(template_snippet).render(Context({}))
 
 
-def test_archive_list_dictionary():
+def test_archive_list_dictionary(mocker):
     """Test the dictionary of archive list."""
-    dictionary = archive_list()
-    assert dictionary == {}
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts = mommy.prepare(Post, _quantity=20)
+    posts_mock.return_value = posts
+    assert isinstance(archive_list(), dict)
 
 
 def test_archive_list_posts(mocker):
     """Test the dictionary with the months and years."""
-    posts_mock = mocker.patch('djangopress.models.Post')
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=20)
     dates = ([date(2016, 2, 1), date(2016, 2, 20)],
              [date(2016, 2, 1), date(2016, 2, 20)],
@@ -67,4 +72,4 @@ def test_archive_list_posts(mocker):
     dates_dictionary['2016'].append(date(2016, 7, 1))
     dates_dictionary['2016'].append(date(2016, 8, 1))
     dates_dictionary['2016'].append(date(2016, 9, 1))
-    assert archive_list == dates_dictionary
+    assert archive_list() == dates_dictionary
