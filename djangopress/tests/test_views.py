@@ -1,4 +1,5 @@
 """Test djangopress views."""
+import random
 try:
     from unittest.mock import Mock, PropertyMock
 except ImportError:
@@ -6,9 +7,10 @@ except ImportError:
 
 from model_mommy import mommy
 
+from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
-from djangopress.views import HomeView
+from djangopress.views import HomeView, PostDetail
 from djangopress.models import Post
 
 
@@ -138,3 +140,45 @@ def test_default_pagination_value(rf, mocker):
     request = rf.get(reverse('djangopress:home'))
     response = HomeView.as_view()(request)
     assert response.context_data['paginator'].per_page == 5
+
+
+def post_view_response(rf, mocker, posts=5):
+    """Generate a PostDetail response object."""
+    mocker.patch('djangopress.views.Option.objects.get_or_create',
+                 new=option_get_or_create_stub(5)
+                 )
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_list = mommy.prepare(Post, _quantity=posts)
+    for post in posts_list:
+        post.slug = slugify(post.title)
+    posts_mock.return_value = posts_list
+    post = random.choice(posts_list)
+    get_object_mock = mocker.patch('djangopress.views.PostDetail.get_object')
+    get_object_mock.return_value = post
+    request = rf.get(reverse('djangopress:post', kwargs={'slug': post.slug}))
+    response = PostDetail.as_view()(request, slug=post.slug)
+    return response
+
+
+def test_post_view(rf, mocker):
+    """Test PostDetail works."""
+    response = post_view_response(rf, mocker)
+    assert response.status_code == 200
+
+
+def test_post_view_title_in_context(rf, mocker):
+    """Test PostDetail context containts the title."""
+    response = post_view_response(rf, mocker)
+    assert 'title' in response.context_data
+
+
+def test_post_view_tagline_in_context(rf, mocker):
+    """Test PostDetail context contains the tagline."""
+    response = post_view_response(rf, mocker)
+    assert 'tagline' in response.context_data
+
+
+def test_post_view_posts_in_context(rf, mocker):
+    """Test PostDetail context contains the posts."""
+    response = post_view_response(rf, mocker)
+    assert 'post' in response.context_data
