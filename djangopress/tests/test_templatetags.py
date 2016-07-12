@@ -7,7 +7,7 @@ from model_mommy import mommy
 from django.template import Template, Context
 
 from djangopress.models import Post
-from djangopress.templatetags.djangopress import archive_list
+from djangopress.templatetags.djangopress_tags import archive_list
 
 
 def random_date(start, end):
@@ -22,7 +22,7 @@ def test_archive_list_tag(mocker):
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=20)
     posts_mock.return_value = posts
-    template_snippet = '{% load djangopress %}{% archive_list %}'
+    template_snippet = '{% load djangopress_tags %}{% archive_list %}'
     Template(template_snippet).render(Context({}))
 
 

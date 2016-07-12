@@ -14,15 +14,15 @@ register = template.Library()
 def archive_list():
     """List post by date"""
     posts = Post.objects.all()
-    dict = defaultdict(set)
+    years_dictionary = defaultdict(set)
     for post in posts:
         year = post.creation_date.year
         month = post.creation_date.month
-        dict[year].add(month)
+        years_dictionary[year].add(month)
     years = {}
-    for year, months in dict.items():
+    for year, months in years_dictionary.items():
         year = str(year)
         years[year] = []
         for month in months:
-            years[year].append(date( int(year), month, 1))
+            years[year].append(date(int(year), month, 1))
     return years
