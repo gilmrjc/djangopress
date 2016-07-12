@@ -38,3 +38,14 @@ Djangopress
 
 Djangopress is a extendable blog engine made to create blogs with easy theme
 support.
+
+Features
+========
+
+At the moment the blog only displays the main page with a list of posts and the
+post pages. The main page is paginated.
+
+License
+=======
+
+This app is licensed under the MIT license.
