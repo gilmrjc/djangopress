@@ -147,11 +147,9 @@ def post_view_response(rf, mocker, posts=5):
     mocker.patch('djangopress.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub(5)
                  )
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_list = mommy.prepare(Post, _quantity=posts)
     for post in posts_list:
         post.slug = slugify(post.title)
-    posts_mock.return_value = posts_list
     post = random.choice(posts_list)
     get_object_mock = mocker.patch('djangopress.views.PostDetail.get_object')
     get_object_mock.return_value = post
