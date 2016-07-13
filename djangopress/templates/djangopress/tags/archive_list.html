@@ -1,0 +1,8 @@
+<h4>Archives</h4>
+<ol class="list-unstyled">
+  {% for year, months in years.items %}
+    {% for month in months %}
+      <li><a href="#">{{ month|date:'F Y' }}</a></li>
+    {% endfor %}
+  {% endfor %}
+</ol>
