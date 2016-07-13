@@ -1,0 +1,21 @@
+image:
+  - python:2.7
+  - python:3.3
+  - python:3.4
+  - python:3.5
+  - pypy:2
+  - pypy:3
+
+before_script:
+  - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter coveralls 
+  - pip install tox
+
+after_script:
+  - coverage combine
+  - coverage report
+  - coverage xml
+
+testing:
+  script:
+    - coverage erase
+    - tox --skip-missing
