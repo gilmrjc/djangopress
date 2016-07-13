@@ -4,7 +4,7 @@ from model_mommy import mommy
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-from djangopress.models import Post, Option
+from djangopress.models import Post, Option, Category
 
 
 def test_post_str():
@@ -34,3 +34,8 @@ def test_option_str():
     """Test string representation for Option object."""
     option = mommy.prepare(Option)
     assert str(option) == option.name
+
+
+def test_category_str():
+    category = mommy.prepare(Category)
+    assert str(category) == category.name
