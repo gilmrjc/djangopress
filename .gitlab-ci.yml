@@ -1,4 +1,4 @@
-image: gilmrjc/all-py
+image: gilmrjc/all-py:dockerfile
 
 before_script:
   - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter coveralls 
