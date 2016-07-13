@@ -62,6 +62,7 @@ def test_archive_list_posts(mocker):
     for i, post in enumerate(posts):
         post.creation_date = random_date(dates[i][0], dates[i][1])
     posts_mock.return_value = posts
+    dictionary = {}
     dates_dictionary = {}
     dates_dictionary['2016'] = []
     dates_dictionary['2016'].append(date(2016, 2, 1))
@@ -72,4 +73,5 @@ def test_archive_list_posts(mocker):
     dates_dictionary['2016'].append(date(2016, 7, 1))
     dates_dictionary['2016'].append(date(2016, 8, 1))
     dates_dictionary['2016'].append(date(2016, 9, 1))
-    assert archive_list() == dates_dictionary
+    dictionary['years'] = dates_dictionary
+    assert archive_list() == dictionary

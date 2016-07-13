@@ -25,4 +25,4 @@ def archive_list():
         years[year] = []
         for month in months:
             years[year].append(date(int(year), month, 1))
-    return years
+    return {'years': years}
