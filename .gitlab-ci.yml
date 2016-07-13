@@ -1,4 +1,4 @@
-image: gilmrjc/all-py:dockerfile
+image: gilmrjc/all-py
 
 before_script:
   - pip install wheel
