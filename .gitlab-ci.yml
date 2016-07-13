@@ -3,7 +3,7 @@ image: gilmrjc/all-py
 before_script:
   - pip install wheel
   - pip3 install wheel
-  - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter coveralls 
+  - pip install coverage django-coverage-plugin
   - pip install tox
 
 after_script:
