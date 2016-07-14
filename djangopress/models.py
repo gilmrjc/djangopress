@@ -13,6 +13,7 @@ def _get_default_category():
     category, _ = Category.objects.get_or_create(name='Uncategorized')
     return category.pk
 
+
 @python_2_unicode_compatible
 class Post(models.Model):
     """Post Model."""

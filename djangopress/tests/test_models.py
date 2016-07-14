@@ -1,4 +1,5 @@
 """Test for djangopress models."""
+import pytest
 from model_mommy import mommy
 
 from django.core.urlresolvers import reverse
@@ -51,11 +52,12 @@ def test_category_str():
     assert str(category) == category.name
 
 
+@pytest.mark.django_db
 def test_default_category(mocker):
     """Test default category is 'Uncategorized'."""
-    mocker.patch('django.db.models.Model.save', autospec=True)
+    # mocker.patch('django.db.models.Model.save', autospec=True)
     category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
+    category = mommy.make(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None
     post = mommy.make(Post)
