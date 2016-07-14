@@ -37,5 +37,6 @@ def test_option_str():
 
 
 def test_category_str():
+    """Test string representation for Category object."""
     category = mommy.prepare(Category)
     assert str(category) == category.name

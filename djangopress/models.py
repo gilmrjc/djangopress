@@ -61,6 +61,26 @@ class Post(models.Model):
         ordering = ['-creation_date']
 
 
+@python_2_unicode_compatible
+class Category(models.Model):
+    """Category model."""
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        """Category string representation."""
+        return self.name
+
+
+@python_2_unicode_compatible
+class Option(models.Model):
+    """Option."""
+    name = models.CharField(unique=True, max_length=255)
+    value = models.CharField(max_length=255)
+
+    def __str__(self):
+        """String representation of Option object"""
+        return self.name
+
 # class CommentMeta(models.Model):
 #     """Meta information of comments."""
 #     comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
@@ -99,17 +119,6 @@ class Post(models.Model):
 #     link_rss = models.CharField(max_length=255)
 #
 #
-@python_2_unicode_compatible
-class Option(models.Model):
-    """Option."""
-    name = models.CharField(unique=True, max_length=191)
-    value = models.CharField(max_length=255)
-
-    def __str__(self):
-        """String representation of Option object"""
-        return self.name
-
-
 # class PostMeta(models.Model):
 #     """Meta information about posts."""
 #     post = models.ForeignKey('Post')
