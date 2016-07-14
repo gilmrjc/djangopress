@@ -28,19 +28,7 @@ class Post(models.Model):
     excerpt = models.TextField(blank=True, null=True)
     creation_date = models.DateTimeField(blank=True, default=now)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
-    comment_status = models.CharField(max_length=20)
-    ping_status = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-    post_name = models.CharField(max_length=200)
-    to_ping = models.TextField()
-    pinged = models.TextField()
     modified_date = models.DateTimeField(editable=False)
-    content_filtered = models.TextField()
-    parent = models.BigIntegerField()
-    guid = models.CharField(max_length=255)
-    menu_order = models.IntegerField()
-    post_type = models.CharField(max_length=20)
-    post_mime_type = models.CharField(max_length=100)
 
     @property
     def get_absolute_url(self):
