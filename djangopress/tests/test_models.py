@@ -56,6 +56,7 @@ def test_default_category(mocker):
     mocker.patch('django.db.models.Model.save', autospec=True)
     category_mock = mocker.patch('djangopress.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
+    category.pk = 1
     category_mock.get_or_create.return_value = category, None
     post = mommy.make(Post)
     assert post.category == category
