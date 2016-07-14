@@ -28,19 +28,7 @@ class Post(models.Model):
     excerpt = models.TextField(blank=True, null=True)
     creation_date = models.DateTimeField(blank=True, default=now)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
-    comment_status = models.CharField(max_length=20)
-    ping_status = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-    post_name = models.CharField(max_length=200)
-    to_ping = models.TextField()
-    pinged = models.TextField()
     modified_date = models.DateTimeField(editable=False)
-    content_filtered = models.TextField()
-    parent = models.BigIntegerField()
-    guid = models.CharField(max_length=255)
-    menu_order = models.IntegerField()
-    post_type = models.CharField(max_length=20)
-    post_mime_type = models.CharField(max_length=100)
 
     @property
     def get_absolute_url(self):
@@ -60,6 +48,26 @@ class Post(models.Model):
     class Meta:
         ordering = ['-creation_date']
 
+
+@python_2_unicode_compatible
+class Category(models.Model):
+    """Category model."""
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        """Category string representation."""
+        return self.name
+
+
+@python_2_unicode_compatible
+class Option(models.Model):
+    """Option."""
+    name = models.CharField(unique=True, max_length=255)
+    value = models.CharField(max_length=255)
+
+    def __str__(self):
+        """String representation of Option object"""
+        return self.name
 
 # class CommentMeta(models.Model):
 #     """Meta information of comments."""
@@ -99,17 +107,6 @@ class Post(models.Model):
 #     link_rss = models.CharField(max_length=255)
 #
 #
-@python_2_unicode_compatible
-class Option(models.Model):
-    """Option."""
-    name = models.CharField(unique=True, max_length=191)
-    value = models.CharField(max_length=255)
-
-    def __str__(self):
-        """String representation of Option object"""
-        return self.name
-
-
 # class PostMeta(models.Model):
 #     """Meta information about posts."""
 #     post = models.ForeignKey('Post')
