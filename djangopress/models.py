@@ -9,6 +9,11 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 
+def _get_default_category():
+    category, _ = Category.objects.get_or_create(name='Uncategorized')
+    return category.pk
+
+
 @python_2_unicode_compatible
 class Post(models.Model):
     """Post Model."""
@@ -29,6 +34,11 @@ class Post(models.Model):
     creation_date = models.DateTimeField(blank=True, default=now)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     modified_date = models.DateTimeField(editable=False)
+    category = models.ForeignKey('Category',
+                                 on_delete=models.CASCADE,
+                                 default=_get_default_category,
+                                 blank=True
+                                 )
 
     @property
     def get_absolute_url(self):
