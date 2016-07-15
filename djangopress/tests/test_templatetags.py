@@ -1,5 +1,5 @@
 """Test djangopress templatetags."""
-from random import random, randint
+from random import randint
 from datetime import date, timedelta
 
 from model_mommy import mommy
@@ -126,15 +126,15 @@ def test_category_list_content(mocker):
     posts = []
     posts += mommy.prepare(Post,
                            category=uncategorized,
-                           _quantity=random(1, 6)
+                           _quantity=randint(1, 6)
                            )
     for category in categories:
         posts += mommy.prepare(Post,
                                category=category,
-                               _quantity=random(1, 6)
+                               _quantity=randint(1, 6)
                                )
     posts_mock.return_value = posts
-    categories = uncategorized + categories
+    categories.insert(0, uncategorized)
     dictionary = {}
     dictionary['categories'] = categories
     assert category_list() == dictionary
