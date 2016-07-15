@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from django import template
 
-from djangopress.models import Post
+from djangopress.models import Post, Category
 
 
 register = template.Library()
@@ -26,3 +26,10 @@ def archive_list():
         for month in months:
             years[year].append(date(int(year), month, 1))
     return {'years': years}
+
+
+@register.inclusion_tag('djangopress/tags/category_list.html')
+def category_list():
+    """List the categories in the blog."""
+    categories = Category.objects.all()
+    return {'categories': categories}

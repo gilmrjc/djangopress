@@ -120,21 +120,9 @@ def test_category_list_content(mocker):
     category_mock = mocker.patch('djangopress.models.Category.objects')
     uncategorized = mommy.prepare(Category, name='Uncategorized')
     uncategorized.pk = 1
-    category_mock.get_or_create.return_value = uncategorized, None
     categories = mommy.prepare(Category, _quantity=3)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
-    posts = []
-    posts += mommy.prepare(Post,
-                           category=uncategorized,
-                           _quantity=randint(1, 6)
-                           )
-    for category in categories:
-        posts += mommy.prepare(Post,
-                               category=category,
-                               _quantity=randint(1, 6)
-                               )
-    posts_mock.return_value = posts
     categories.insert(0, uncategorized)
+    category_mock.all.return_value = categories
     dictionary = {}
     dictionary['categories'] = categories
     assert category_list() == dictionary
