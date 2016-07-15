@@ -8,6 +8,7 @@ from django.template import Template, Context
 
 from djangopress.models import Post, Category
 from djangopress.templatetags.djangopress_tags import archive_list
+from djangopress.templatetags.djangopress_tags import category_list
 
 
 def random_date(start, end):
@@ -87,3 +88,41 @@ def test_archive_list_posts(mocker):
     dates_dictionary['2016'].append(date(2016, 9, 1))
     dictionary['years'] = dates_dictionary
     assert archive_list() == dictionary
+
+
+def test_category_list_tag(mocker):
+    """Test category list templatetag"""
+    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category = mommy.prepare(Category, name='Uncategorized')
+    category.pk = 1
+    category_mock.get_or_create.return_value = category, None
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts = mommy.prepare(Post, _quantity=20)
+    posts_mock.return_value = posts
+    template_snippet = '{% load djangopress_tags %}{% category_list %}'
+    Template(template_snippet).render(Context({}))
+
+
+def test_category_list_dictionary(mocker):
+    """Test the dictionary of archive list."""
+    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category = mommy.prepare(Category, name='Uncategorized')
+    category.pk = 1
+    category_mock.get_or_create.return_value = category, None
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts = mommy.prepare(Post, _quantity=20)
+    posts_mock.return_value = posts
+    assert isinstance(category_list(), dict)
+
+
+def test_category_list_content(mocker):
+    """Test the dictionary with the months and years."""
+    category_mock = mocker.patch('djangopress.models.Category.objects')
+    uncategorized = mommy.prepare(Category, name='Uncategorized')
+    uncategorized.pk = 1
+    categories = mommy.prepare(Category, _quantity=3)
+    categories.insert(0, uncategorized)
+    category_mock.all.return_value = categories
+    dictionary = {}
+    dictionary['categories'] = categories
+    assert category_list() == dictionary
