@@ -25,6 +25,8 @@ def archive_list():
         years[year] = []
         for month in months:
             years[year].append(date(int(year), month, 1))
+    for year in years:
+        years[year].sort(reverse=True)
     return {'years': years}
 
 
