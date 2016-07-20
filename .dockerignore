@@ -1,0 +1,17 @@
+.git
+*.sqlite3
+*.pyc
+__pycache__
+node_modules
+assets
+libs
+*.swp
+.sass-cache
+.venv
+.cache
+.coverage
+media
+.testmondata
+.tmontmp/
+.tox
+.coverage.*
