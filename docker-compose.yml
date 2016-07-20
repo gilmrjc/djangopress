@@ -1,0 +1,13 @@
+app:
+  restart: always
+  build: .
+  volumes:
+    - .:/usr/src/app
+
+nginx:
+  restart: always
+  build: nginx
+  links:
+    - app:app
+  ports:
+    - "80:80"
