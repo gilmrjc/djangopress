@@ -86,6 +86,7 @@ def test_archive_list_posts(mocker):
     dates_dictionary['2016'].append(date(2016, 7, 1))
     dates_dictionary['2016'].append(date(2016, 8, 1))
     dates_dictionary['2016'].append(date(2016, 9, 1))
+    dates_dictionary['2016'].sort(reverse=True)
     dictionary['years'] = dates_dictionary
     assert archive_list() == dictionary
 
