@@ -28,8 +28,8 @@ def option_get_or_create_stub(number):
     return function_stub
 
 
-def home_view_response(rf, mocker, posts=5):
-    """Generate a HomeView response object."""
+def general_options(mocker):
+    """Generate the general options needed for the pages."""
     mocker.patch('djangopress.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub(5)
                  )
@@ -37,6 +37,11 @@ def home_view_response(rf, mocker, posts=5):
     category = mommy.prepare(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None
+
+
+def home_view_response(rf, mocker, posts=5):
+    """Generate a HomeView response object."""
+    general_options(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=posts)
     request = rf.get(reverse('djangopress:home'))
@@ -88,13 +93,7 @@ def test_home_view_pagination_6_posts(rf, mocker):
 
 def test_home_view_custom_pagination(rf, mocker):
     """Test a custom pagination value."""
-    mocker.patch('djangopress.views.Option.objects.get_or_create',
-                 new=option_get_or_create_stub(3)
-                 )
-    category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
-    category.pk = 1
-    category_mock.get_or_create.return_value = category, None
+    general_options(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=3)
     request = rf.get(reverse('djangopress:home'))
@@ -105,7 +104,7 @@ def test_home_view_custom_pagination(rf, mocker):
 def test_home_view_custom_pagination_pag(rf, mocker):
     """Test a custom pagination value."""
     mocker.patch('djangopress.views.Option.objects.get_or_create',
-                 new=option_get_or_create_stub(3)
+                 new=option_get_or_create_stub('3')
                  )
     category_mock = mocker.patch('djangopress.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
@@ -120,13 +119,7 @@ def test_home_view_custom_pagination_pag(rf, mocker):
 
 def test_home_view_pagination_pages(rf, mocker):
     """Test the pagination of the homepage."""
-    mocker.patch('djangopress.views.Option.objects.get_or_create',
-                 new=option_get_or_create_stub(5)
-                 )
-    category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
-    category.pk = 1
-    category_mock.get_or_create.return_value = category, None
+    general_options(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=6)
     request = rf.get(reverse('djangopress:page', kwargs={'page': 2}))
@@ -168,13 +161,7 @@ def test_default_pagination_value(rf, mocker):
 
 def post_view_response(rf, mocker, posts=5):
     """Generate a PostDetail response object."""
-    mocker.patch('djangopress.views.Option.objects.get_or_create',
-                 new=option_get_or_create_stub(5)
-                 )
-    category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
-    category.pk = 1
-    category_mock.get_or_create.return_value = category, None
+    general_options(mocker)
     posts_list = mommy.prepare(Post, _quantity=posts)
     for post in posts_list:
         post.slug = slugify(post.title)
