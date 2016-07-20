@@ -18,12 +18,18 @@ def random_date(start, end):
     return start + random_delta
 
 
-def test_archive_list_tag(mocker):
-    """Test the archive_list tag."""
+def create_uncategorized_category(mocker):
+    """Create the default category."""
     category_mock = mocker.patch('djangopress.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None
+
+
+
+def test_archive_list_tag(mocker):
+    """Test the archive_list tag."""
+    create_uncategorized_category(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=20)
     posts_mock.return_value = posts
@@ -33,10 +39,7 @@ def test_archive_list_tag(mocker):
 
 def test_archive_list_dictionary(mocker):
     """Test the dictionary of archive list."""
-    category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
-    category.pk = 1
-    category_mock.get_or_create.return_value = category, None
+    create_uncategorized_category(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=20)
     posts_mock.return_value = posts
@@ -45,10 +48,7 @@ def test_archive_list_dictionary(mocker):
 
 def test_archive_list_posts(mocker):
     """Test the dictionary with the months and years."""
-    category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
-    category.pk = 1
-    category_mock.get_or_create.return_value = category, None
+    create_uncategorized_category(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=20)
     dates = ([date(2016, 2, 1), date(2016, 2, 20)],
@@ -93,10 +93,7 @@ def test_archive_list_posts(mocker):
 
 def test_category_list_tag(mocker):
     """Test category list templatetag"""
-    category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
-    category.pk = 1
-    category_mock.get_or_create.return_value = category, None
+    create_uncategorized_category(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=20)
     posts_mock.return_value = posts
@@ -106,10 +103,7 @@ def test_category_list_tag(mocker):
 
 def test_category_list_dictionary(mocker):
     """Test the dictionary of archive list."""
-    category_mock = mocker.patch('djangopress.models.Category.objects')
-    category = mommy.prepare(Category, name='Uncategorized')
-    category.pk = 1
-    category_mock.get_or_create.return_value = category, None
+    create_uncategorized_category(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=20)
     posts_mock.return_value = posts
