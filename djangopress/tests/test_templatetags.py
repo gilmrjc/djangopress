@@ -26,13 +26,17 @@ def create_uncategorized_category(mocker):
     category_mock.get_or_create.return_value = category, None
 
 
+def create_post(mocker, posts=20):
+    """Create the posts objects."""
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts = mommy.prepare(Post, _quantity=posts)
+    posts_mock.return_value = posts
+
 
 def test_archive_list_tag(mocker):
     """Test the archive_list tag."""
     create_uncategorized_category(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
-    posts = mommy.prepare(Post, _quantity=20)
-    posts_mock.return_value = posts
+    create_post(mocker)
     template_snippet = '{% load djangopress_tags %}{% archive_list %}'
     Template(template_snippet).render(Context({}))
 
@@ -40,9 +44,7 @@ def test_archive_list_tag(mocker):
 def test_archive_list_dictionary(mocker):
     """Test the dictionary of archive list."""
     create_uncategorized_category(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
-    posts = mommy.prepare(Post, _quantity=20)
-    posts_mock.return_value = posts
+    create_post(mocker)
     assert isinstance(archive_list(), dict)
 
 
@@ -94,9 +96,7 @@ def test_archive_list_posts(mocker):
 def test_category_list_tag(mocker):
     """Test category list templatetag"""
     create_uncategorized_category(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
-    posts = mommy.prepare(Post, _quantity=20)
-    posts_mock.return_value = posts
+    create_post(mocker)
     template_snippet = '{% load djangopress_tags %}{% category_list %}'
     Template(template_snippet).render(Context({}))
 
@@ -104,9 +104,7 @@ def test_category_list_tag(mocker):
 def test_category_list_dictionary(mocker):
     """Test the dictionary of archive list."""
     create_uncategorized_category(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
-    posts = mommy.prepare(Post, _quantity=20)
-    posts_mock.return_value = posts
+    create_post(mocker)
     assert isinstance(category_list(), dict)
 
 
