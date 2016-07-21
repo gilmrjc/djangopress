@@ -10,8 +10,6 @@ RUN addgroup django && \
 
 USER django
 
-RUN ["/usr/src/app/manage.py", "migrate"]
-
 EXPOSE 8000
 
 ENTRYPOINT ["/usr/src/app/manage.py", "runserver"]
