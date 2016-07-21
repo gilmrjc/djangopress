@@ -2,7 +2,7 @@
 <ol class="list-unstyled">
   {% for year, months in years.items %}
     {% for month in months %}
-      <li><a href="#">{{ month|date:'F Y' }}</a></li>
+      <li><a href="{% url 'djangopress:month_archive' year=month.year month=month.month %}">{{ month|date:'F Y' }}</a></li>
     {% endfor %}
   {% endfor %}
 </ol>

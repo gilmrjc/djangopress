@@ -1,6 +1,7 @@
 """Views for djangopress"""
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.dates import MonthArchiveView
 
 from djangopress.models import Post, Option
 
@@ -45,3 +46,13 @@ class PostDetail(DjangoPressMixin,  # pylint: disable=too-many-ancestors
                  DetailView):
     """Post view."""
     model = Post
+
+
+class MonthArchive(DjangoPressMixin,  # pylint: disable=too-many-ancestors
+                   MonthArchiveView
+                   ):
+    """Month archive view."""
+    model = Post
+    month_format = '%m'
+    date_field = 'creation_date'
+    context_object_name = 'posts'

@@ -10,7 +10,7 @@ from model_mommy import mommy
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
-from djangopress.views import HomeView, PostDetail
+from djangopress.views import HomeView, PostDetail, MonthArchive
 from djangopress.models import Post, Category
 
 
@@ -195,3 +195,44 @@ def test_post_view_posts_in_context(rf, mocker):
     """Test PostDetail context contains the posts."""
     response = post_view_response(rf, mocker)
     assert 'post' in response.context_data
+
+
+def month_archive_view_response(rf, mocker, posts=5):
+    """Generate a PostDetail response object."""
+    general_options(mocker)
+    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_list = mommy.prepare(Post, _quantity=posts)
+    posts_mock.return_value = posts_list
+    mocker.patch('djangopress.views.MonthArchive.get_ordering')
+    mocker.patch('djangopress.views.MonthArchive.get_dated_queryset')
+    mocker.patch('djangopress.views.MonthArchive.get_date_list')
+    mocker.patch('django.views.generic.dates._get_next_prev')
+    request = rf.get(reverse('djangopress:month_archive',
+                             kwargs={'year': 2016, 'month': 5})
+                     )
+    response = MonthArchive.as_view()(request, year='2016', month='5')
+    return response
+
+
+def test_month_archive_view(rf, mocker):
+    """Test the month archive view."""
+    response = month_archive_view_response(rf, mocker)
+    assert response.status_code == 200
+
+
+def test_month_archive_title_context(rf, mocker):
+    """Test PostDetail context containts the title."""
+    response = month_archive_view_response(rf, mocker)
+    assert 'title' in response.context_data
+
+
+def test_month_archive_tagline_context(rf, mocker):
+    """Test PostDetail context contains the tagline."""
+    response = month_archive_view_response(rf, mocker)
+    assert 'tagline' in response.context_data
+
+
+def test_month_archive_posts_context(rf, mocker):
+    """Test PostDetail context contains the posts."""
+    response = month_archive_view_response(rf, mocker)
+    assert 'posts' in response.context_data

@@ -1,0 +1,9 @@
+{% extends 'djangopress/base.html' %}
+
+
+{% block content %}
+<div class="col-sm-8">  
+  <h2>{{ month|date:'F Y'}}</h2>
+  {% include 'djangopress/includes/posts_list.html' with posts=posts %}
+</div>
+{% endblock %}
