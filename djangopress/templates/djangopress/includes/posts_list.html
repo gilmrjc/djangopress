@@ -10,7 +10,7 @@
     {{ post.author }}
   </p>
   <div class="entry clearfix">
-    {{ post.content|linebreaks }}
+    {{ post.content|safe|linebreaks }}
   </div>
 </div>
 {% endfor %}
