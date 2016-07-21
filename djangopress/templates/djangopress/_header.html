@@ -1,4 +1,6 @@
 <div class="blog-header">
-	<h1 class="blog-title">{{ title }}</h1>
-	<p class="lead blog-description">{{ tagline }}</p>
+  <div class="container">
+    <h1 class="blog-title"><a href="{% url "djangopress:home" %}">{{ title }}</a></h1>
+    <p class="lead blog-description">{{ tagline }}</p>
+  </div>
 </div>

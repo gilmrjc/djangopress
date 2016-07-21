@@ -6,10 +6,10 @@
     {% endblock %}
   </head>
   <body>
+    {% block header %}
+      {% include 'djangopress/_header.html' %}
+    {% endblock %}
     <div class="container">
-      {% block header %}
-        {% include 'djangopress/_header.html' %}
-      {% endblock %}
       <div class="row">
         {% block content %}
         {% endblock %}

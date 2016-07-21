@@ -9,6 +9,8 @@
     <span class="glyphicon glyphicon-user"></span>
     {{ post.author }}
   </p>
-  {{ post.content|linebreaks }}
+  <div class="entry clearfix">
+    {{ post.content|linebreaks }}
+  </div>
 </div>
 {% endfor %}
