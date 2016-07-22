@@ -19,6 +19,10 @@
     <div class="entry clearfix">
         {{ post.content|safe }}
     </div>
+    <p class="blog-post-meta">
+      <span class="glyphicon glyphicon-folder-open"></span>
+      Posted in {{ post.category }}
+    </p>
   </div>
 </div>
 {% endblock %}
