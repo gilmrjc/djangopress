@@ -3,7 +3,7 @@
   {% for comment in comments %}
     <li class="comment {% cycle 'even' 'odd' %}">
       <article>
-        <header>
+        <header class="comment-meta">
           <cite>{{ comment.author }}</cite>
           <span class="glyphicon glyphicon-calendar"></span>
           {{ comment.creation_date}}
