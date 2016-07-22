@@ -10,7 +10,7 @@ from model_mommy import mommy
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
-from djangopress.views import HomeView, PostDetail, MonthArchive
+from djangopress.views import PostList, PostDetail, MonthArchive
 from djangopress.models import Post, Category
 
 
@@ -39,69 +39,69 @@ def general_options(mocker):
     category_mock.get_or_create.return_value = category, None
 
 
-def home_view_response(rf, mocker, posts=5):
-    """Generate a HomeView response object."""
+def post_list_response(rf, mocker, posts=5):
+    """Generate a PostList response object."""
     general_options(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=posts)
     request = rf.get(reverse('djangopress:home'))
-    response = HomeView.as_view()(request)
+    response = PostList.as_view()(request)
     return response
 
 
-def test_home_view(rf, mocker):
-    """Test HomeView works."""
-    response = home_view_response(rf, mocker)
+def test_post_list(rf, mocker):
+    """Test PostList works."""
+    response = post_list_response(rf, mocker)
     assert response.status_code == 200
 
 
-def test_home_view_title_in_context(rf, mocker):
+def test_post_list_title_in_context(rf, mocker):
     """Test Homeview context containts the title."""
-    response = home_view_response(rf, mocker)
+    response = post_list_response(rf, mocker)
     assert 'title' in response.context_data
 
 
-def test_home_view_tagline_in_context(rf, mocker):
+def test_post_list_tagline_in_context(rf, mocker):
     """Test Homeview context contains the tagline."""
-    response = home_view_response(rf, mocker)
+    response = post_list_response(rf, mocker)
     assert 'tagline' in response.context_data
 
 
-def test_home_view_posts_in_context(rf, mocker):
+def test_post_list_posts_in_context(rf, mocker):
     """Test Homeview context contains the posts."""
-    response = home_view_response(rf, mocker)
+    response = post_list_response(rf, mocker)
     assert 'posts' in response.context_data
 
 
-def test_home_page_pagination(rf, mocker):
+def test_post_list_pagination(rf, mocker):
     """Test Homeview paginates content."""
-    response = home_view_response(rf, mocker)
+    response = post_list_response(rf, mocker)
     assert 'is_paginated' in response.context_data
 
 
-def test_home_view_pagination_2_posts(rf, mocker):
-    """Test HomeView paginates content based on the number of posts."""
-    response = home_view_response(rf, mocker, 2)
+def test_post_list_pagination_2_posts(rf, mocker):
+    """Test PostList paginates content based on the number of posts."""
+    response = post_list_response(rf, mocker, 2)
     assert not response.context_data['is_paginated']
 
 
-def test_home_view_pagination_6_posts(rf, mocker):
-    """Test HomeView paginates content based on the number of posts."""
-    response = home_view_response(rf, mocker, 6)
+def test_post_list_pagination_6_posts(rf, mocker):
+    """Test PostList paginates content based on the number of posts."""
+    response = post_list_response(rf, mocker, 6)
     assert response.context_data['is_paginated']
 
 
-def test_home_view_custom_pagination(rf, mocker):
+def test_post_list_custom_pagination(rf, mocker):
     """Test a custom pagination value."""
     general_options(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=3)
     request = rf.get(reverse('djangopress:home'))
-    response = HomeView.as_view()(request)
+    response = PostList.as_view()(request)
     assert not response.context_data['is_paginated']
 
 
-def test_home_view_custom_pagination_pag(rf, mocker):
+def test_post_list_custom_pagination_pag(rf, mocker):
     """Test a custom pagination value."""
     mocker.patch('djangopress.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub('3')
@@ -113,17 +113,17 @@ def test_home_view_custom_pagination_pag(rf, mocker):
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=4)
     request = rf.get(reverse('djangopress:home'))
-    response = HomeView.as_view()(request)
+    response = PostList.as_view()(request)
     assert response.context_data['is_paginated']
 
 
-def test_home_view_pagination_pages(rf, mocker):
+def test_post_list_pagination_pages(rf, mocker):
     """Test the pagination of the homepage."""
     general_options(mocker)
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=6)
     request = rf.get(reverse('djangopress:page', kwargs={'page': 2}))
-    response = HomeView.as_view()(request, page=2)
+    response = PostList.as_view()(request, page=2)
     assert response.context_data['page_obj'].number == 2
 
 
@@ -139,7 +139,7 @@ def test_bad_pagination_option(rf, mocker):
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=6)
     request = rf.get(reverse('djangopress:home'))
-    response = HomeView.as_view()(request)
+    response = PostList.as_view()(request)
     assert 'is_paginated' in response.context_data
 
 
@@ -155,7 +155,7 @@ def test_default_pagination_value(rf, mocker):
     posts_mock = mocker.patch('djangopress.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=6)
     request = rf.get(reverse('djangopress:home'))
-    response = HomeView.as_view()(request)
+    response = PostList.as_view()(request)
     assert response.context_data['paginator'].per_page == 5
 
 
