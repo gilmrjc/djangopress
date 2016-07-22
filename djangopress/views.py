@@ -23,10 +23,9 @@ class DjangoPressMixin(object):  # pylint: disable=too-few-public-methods
         return context
 
 
-class HomeView(DjangoPressMixin,  # pylint:disable=too-many-ancestors
+class PostList(DjangoPressMixin,  # pylint:disable=too-many-ancestors
                ListView):
     """Home view."""
-    template_name = 'djangopress/home.html'
     model = Post
     context_object_name = 'posts'
 
