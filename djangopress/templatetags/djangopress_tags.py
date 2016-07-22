@@ -69,3 +69,10 @@ def category_list():
     """List the categories in the blog."""
     categories = Category.objects.all()
     return {'categories': categories}
+
+
+@register.inclusion_tag('djangopress/tags/recent_posts.html')
+def recent_posts():
+    """List the recent posts."""
+    posts = Post.objects.all()[:5]
+    return {'posts': posts}
