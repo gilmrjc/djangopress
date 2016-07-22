@@ -1,13 +1,30 @@
 """Templatetags for djangopress."""
+import re
 from datetime import date
 from collections import defaultdict
 
 from django import template
+from django.utils.html import escape
+from django.utils.safestring import SafeData, mark_safe
+from django.template.defaultfilters import stringfilter
 
 from djangopress.models import Post, Category
 
 
 register = template.Library()
+
+
+@register.filter(is_safe=True, needs_autoscape=True)
+@stringfilter
+def more(value, arg, autoescape=True):
+    """Adds a "Read more" tag in the post preview."""
+    autoescape = autoescape and not isinstance(value, SafeData)
+    text = re.split(r'<!--\s*more\s*-->', value)
+    more_link = '<p><a href="%s" class="more-link">Read More</a><p>' % arg
+    text = text[0] + more_link if len(text) > 1 else text[0]
+    if autoescape:
+        text = escape(text)
+    return mark_safe(text)
 
 
 @register.inclusion_tag('djangopress/tags/archive_list.html')
