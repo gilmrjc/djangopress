@@ -12,7 +12,7 @@
       {{ post.author }}
     </p>
     <div class="entry clearfix">
-      {{ post.content|more:post_url }}
+      {{ post.content|more:post_url|linebreakshtml }}
     </div>
   {% endwith %}
 </div>
