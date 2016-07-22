@@ -1,4 +1,5 @@
 {% load djangopress_tags %}
+{% load djangopress_comments %}
 <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
   <div class="sidebar-module">
     <div class="input-group custom-search-form">
@@ -12,6 +13,9 @@
   </div>
   <div class="sidebar-module">
     {% archive_list %}
+  </div>
+  <div class="sidebar-module">
+    {% recent_comments %}
   </div>
   <div class="sidebar-module">
     {% category_list %}

@@ -1,0 +1,11 @@
+<h4>Recent Comments</h4>
+<ol class="list-unstyled">
+  {% for comment in comments %}
+    <li>
+      {{ comment.author }} on
+      <a href="{{ comment.post.get_absolute_url}}">
+          {{ comment.post}}
+      </a>
+    </li>
+  {% endfor %}
+</ol>

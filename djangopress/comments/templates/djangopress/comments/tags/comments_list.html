@@ -1,0 +1,18 @@
+{% load djangopress_tags %}
+<ol class="comment-list">
+  {% for comment in comments %}
+    <li class="comment {% cycle 'even' 'odd' %}">
+      <article>
+        <header>
+          <cite>{{ comment.author }}</cite>
+          <span class="glyphicon glyphicon-calendar"></span>
+          {{ comment.creation_date}}
+        </header>
+        <section class="comment-content comment">
+          {{ comment.content|linebreakshtml }}
+        </section>
+        <hr>
+      </article>
+    </li>
+  {% endfor %}
+</ol>

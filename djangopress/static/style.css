@@ -181,3 +181,18 @@ h6, .h6 {
 .blog-footer p:last-child {
   margin-bottom: 0;
 }
+
+/*
+ * Extras
+ * */
+
+.comment-list {
+  padding: 0;
+}
+.comment-list, .children:nth-child(n+1) {
+  list-style: none;
+}
+.comment-meta {
+  margin-bottom: 10px
+  color: #999;
+}

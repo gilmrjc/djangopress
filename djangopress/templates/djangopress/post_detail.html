@@ -1,4 +1,5 @@
 {% extends 'djangopress/base.html' %}
+{% load djangopress_comments %}
 
 {% block head %}
   {% with title=post.title|striptags|add:" - "|add:title %}
@@ -21,8 +22,18 @@
     </div>
     <p class="blog-post-meta">
       <span class="glyphicon glyphicon-folder-open"></span>
-      Posted in {{ post.category }}
+      Posted in {{ post.category }} <strong> | </strong>
+      <span class="glyphicon glyphicon-comment"></span>
+      {% if post.comment_set.count %}
+        {{ post.comment_set.count }} Comment{{ post.comment_set.count|pluralize }}
+      {% else %}
+        No Comments
+      {% endif %}
+      <hr>
     </p>
+    <div id="comments" class="comments-area">
+      {% show_comments post %}
+    </div>
   </div>
 </div>
 {% endblock %}
