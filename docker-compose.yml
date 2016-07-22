@@ -4,8 +4,6 @@ services:
   app:
     restart: always
     build: .
-    volumes:
-      - .:/usr/src/app
 
   nginx:
     restart: always
