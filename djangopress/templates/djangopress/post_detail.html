@@ -1,7 +1,7 @@
 {% extends 'djangopress/base.html' %}
 
 {% block head %}
-  {% with title=post.title|add:" - "|add:title %}
+  {% with title=post.title|striptags|add:" - "|add:title %}
     {{ block.super }}
   {% endwith %}
 {% endblock %}
@@ -9,7 +9,7 @@
 {% block content %}
 <div class="col-sm-8 blog-main">
   <div class="blog-post" id="{{ post.pk }}">
-    <h2 class="blog-post-title">{{ post.title }}</h2>
+    <h2 class="blog-post-title">{{ post.title|safe }}</h2>
     <p class="blog-post-meta">
       <span class="glyphicon glyphicon-calendar"></span>
       {{ post.creation_date.date }} by 
