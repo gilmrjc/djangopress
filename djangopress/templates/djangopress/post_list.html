@@ -5,8 +5,6 @@
   {% include 'djangopress/includes/posts_list.html' with posts=posts %}
   {% if is_paginated %}
     <nav>
-        {{ page_obj.has_previous }}
-        {{ page_obj.number }}
       <ul class="pager">
         {% if page_obj.has_previous %}
           <li>
