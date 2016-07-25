@@ -1,0 +1,18 @@
+{% extends 'djangopress/base.html' %}
+
+{% block head %}
+  {% with title=page.title|striptags|add:" - "|add:title %}
+    {{ block.super }}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+<div class="col-sm-8 blog-main">
+  <div class="blog-post" id="{{ page.pk }}">
+    <h2 class="blog-post-title">{{ page.title|safe }}</h2>
+    <div class="page clearfix">
+        {{ page.content|safe }}
+    </div>
+  </div>
+</div>
+{% endblock %}

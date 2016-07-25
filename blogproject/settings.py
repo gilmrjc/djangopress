@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'djangopress',
     'djangopress.comments',
+    'djangopress.pages',
 ]
 
 MIDDLEWARE_CLASSES = [
