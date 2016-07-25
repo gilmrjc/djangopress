@@ -2,29 +2,29 @@
 <html{% if LANGUAGE_CODE %} lang="{{ LANGUAGE_CODE }}"{% endif %}>
   <head>
     {% block head %}
-      {% include 'djangopress/_head.html' %}
+      {% include 'djangopress/head.html' %}
     {% endblock %}
   </head>
   <body>
     {% block header %}
-      {% include 'djangopress/_header.html' %}
+      {% include 'djangopress/header.html' %}
     {% endblock %}
     <div class="container">
       <div class="row">
         {% block content %}
         {% endblock %}
         {% block sidebar %}
-          {% include 'djangopress/_sidebar.html' %}
+          {% include 'djangopress/sidebar.html' %}
         {% endblock %}
       </div>
     </div>
     <footer class="blog-footer">
       {% block footer %}
-        {% include 'djangopress/_footer.html' %}
+        {% include 'djangopress/footer.html' %}
       {% endblock %}
     </footer>
     {% block scripts %}
-      {% include 'djangopress/_scripts.html' %}
+      {% include 'djangopress/scripts.html' %}
     {% endblock %}
   </body>
 </html>
