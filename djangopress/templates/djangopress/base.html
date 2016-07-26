@@ -1,13 +1,17 @@
-{% load menu_tags %}{% spaceless %}<!DOCTYPE html>
+{% spaceless %}<!DOCTYPE html>
 <html{% if LANGUAGE_CODE %} lang="{{ LANGUAGE_CODE }}"{% endif %}>
   <head>
-    {% block head %}
-      {% include 'djangopress/head.html' %}
-    {% endblock %}
+    {% with title=settings.title %}
+      {% block head %}
+        {% include 'djangopress/head.html' %}
+      {% endblock %}
+    {% endwith %}
   </head>
   <body>
     {% block menu %}
-      {% menu 'Main' %}
+      {% with menu_name='Main' %}
+        {% include 'djangopress/menu.html' %}
+      {% endwith %}
     {% endblock %}
     {% block header %}
       {% include 'djangopress/header.html' %}

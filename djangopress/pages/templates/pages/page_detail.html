@@ -1,7 +1,7 @@
 {% extends 'djangopress/base.html' %}
 
 {% block head %}
-  {% with title=page.title|striptags|add:" - "|add:title %}
+  {% with title=page.title|striptags|add:" - "|add:settings.title %}
     {{ block.super }}
   {% endwith %}
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load djangopress_comments %}
 
 {% block head %}
-  {% with title=post.title|striptags|add:" - "|add:title %}
+  {% with title=post.title|striptags|add:" - "|add:settings.title %}
     {{ block.super }}
   {% endwith %}
 {% endblock %}
