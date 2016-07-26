@@ -1,4 +1,4 @@
-{% spaceless %}<!DOCTYPE html>
+{% load menu_tags %}{% spaceless %}<!DOCTYPE html>
 <html{% if LANGUAGE_CODE %} lang="{{ LANGUAGE_CODE }}"{% endif %}>
   <head>
     {% block head %}
@@ -6,6 +6,9 @@
     {% endblock %}
   </head>
   <body>
+    {% block menu %}
+      {% menu 'Main' %}
+    {% endblock %}
     {% block header %}
       {% include 'djangopress/header.html' %}
     {% endblock %}

@@ -15,6 +15,7 @@ html {
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
+  word-wrap: break-word;
 }
 
 h1, .h1,

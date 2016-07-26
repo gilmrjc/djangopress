@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'djangopress',
     'djangopress.comments',
     'djangopress.pages',
+    'djangopress.menus',
 ]
 
 MIDDLEWARE_CLASSES = [
