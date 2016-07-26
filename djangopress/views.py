@@ -6,25 +6,7 @@ from django.views.generic.dates import MonthArchiveView
 from djangopress.models import Post, Option
 
 
-class DjangoPressMixin(object):  # pylint: disable=too-few-public-methods
-    """Mixin to load the basic information to template context."""
-    def get_context_data(self, **kwargs):
-        """Add title and tagline to the template context."""
-        context = super(DjangoPressMixin, self).get_context_data(**kwargs)
-        title, _ = Option.objects.get_or_create(name='title',
-                                                defaults={'value': 'Blog'}
-                                                )
-        tagline = 'Un blog mas'
-        tagline, _ = Option.objects.get_or_create(name='tagline',
-                                                  defaults={'value': tagline}
-                                                  )
-        context['title'] = title.value
-        context['tagline'] = tagline.value
-        return context
-
-
-class PostList(DjangoPressMixin,  # pylint:disable=too-many-ancestors
-               ListView):
+class PostList(ListView):  # pylint:disable=too-many-ancestors
     """Home view."""
     model = Post
     context_object_name = 'posts'
@@ -41,15 +23,12 @@ class PostList(DjangoPressMixin,  # pylint:disable=too-many-ancestors
         return number_of_post
 
 
-class PostDetail(DjangoPressMixin,  # pylint: disable=too-many-ancestors
-                 DetailView):
+class PostDetail(DetailView):  # pylint: disable=too-many-ancestors
     """Post view."""
     model = Post
 
 
-class MonthArchive(DjangoPressMixin,  # pylint: disable=too-many-ancestors
-                   MonthArchiveView
-                   ):
+class MonthArchive(MonthArchiveView):  # pylint: disable=too-many-ancestors
     """Month archive view."""
     model = Post
     month_format = '%m'

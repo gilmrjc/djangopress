@@ -1,11 +1,9 @@
 """Views for Djangopress Pages."""
 from django.views.generic.detail import DetailView
 
-from djangopress.views import DjangoPressMixin
 from .models import Page
 
 
-class PageDetail(DjangoPressMixin,  # pylint: disable=too-many-ancestors
-                 DetailView):
+class PageDetail(DetailView):  # pylint: disable=too-many-ancestors
     """Page view."""
     model = Page

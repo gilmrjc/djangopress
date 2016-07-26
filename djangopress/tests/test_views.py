@@ -55,18 +55,6 @@ def test_post_list(rf, mocker):
     assert response.status_code == 200
 
 
-def test_post_list_title_in_context(rf, mocker):
-    """Test Homeview context containts the title."""
-    response = post_list_response(rf, mocker)
-    assert 'title' in response.context_data
-
-
-def test_post_list_tagline_in_context(rf, mocker):
-    """Test Homeview context contains the tagline."""
-    response = post_list_response(rf, mocker)
-    assert 'tagline' in response.context_data
-
-
 def test_post_list_posts_in_context(rf, mocker):
     """Test Homeview context contains the posts."""
     response = post_list_response(rf, mocker)
@@ -179,18 +167,6 @@ def test_post_view(rf, mocker):
     assert response.status_code == 200
 
 
-def test_post_view_title_in_context(rf, mocker):
-    """Test PostDetail context containts the title."""
-    response = post_view_response(rf, mocker)
-    assert 'title' in response.context_data
-
-
-def test_post_view_tagline_in_context(rf, mocker):
-    """Test PostDetail context contains the tagline."""
-    response = post_view_response(rf, mocker)
-    assert 'tagline' in response.context_data
-
-
 def test_post_view_posts_in_context(rf, mocker):
     """Test PostDetail context contains the posts."""
     response = post_view_response(rf, mocker)
@@ -218,18 +194,6 @@ def test_month_archive_view(rf, mocker):
     """Test the month archive view."""
     response = month_archive_view_response(rf, mocker)
     assert response.status_code == 200
-
-
-def test_month_archive_title_context(rf, mocker):
-    """Test PostDetail context containts the title."""
-    response = month_archive_view_response(rf, mocker)
-    assert 'title' in response.context_data
-
-
-def test_month_archive_tagline_context(rf, mocker):
-    """Test PostDetail context contains the tagline."""
-    response = month_archive_view_response(rf, mocker)
-    assert 'tagline' in response.context_data
 
 
 def test_month_archive_posts_context(rf, mocker):
