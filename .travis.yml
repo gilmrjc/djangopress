@@ -10,12 +10,13 @@ install:
       "$PYENV_ROOT/bin/pyenv" install --skip-existing "pypy-$PYPY_VERSION"
       virtualenv --python="$PYENV_ROOT/versions/pypy-$PYPY_VERSION/bin/python" "$HOME/virtualenvs/pypy-$PYPY_VERSION"
       source "$HOME/virtualenvs/pypy-$PYPY_VERSION/bin/activate"
-  - "$PYENV_ROOT/bin/pyenv" install 2.7.10
-  - "$PYENV_ROOT/bin/pyenv" install 3.5.2
-  - "$PYENV_ROOT/bin/pyenv" install 3.4.5
-  - "$PYENV_ROOT/bin/pyenv" install 3.3.6
-  - "$PYENV_ROOT/bin/pyenv" install pypy-5.3
-  - "$PYENV_ROOT/bin/pyenv" local 2.7.10 3.5.2 3.4.5 3.3.6 pypy-5.3
+  - "$PYENV_ROOT/bin/pyenv" install -s 2.7.12
+  - "$PYENV_ROOT/bin/pyenv" install -s 3.5.2
+  - "$PYENV_ROOT/bin/pyenv" install -s 3.4.5
+  - "$PYENV_ROOT/bin/pyenv" install -s 3.3.6
+  - "$PYENV_ROOT/bin/pyenv" install -s pypy-4.0.1
+  - "$PYENV_ROOT/bin/pyenv" rehash
+  - "$PYENV_ROOT/bin/pyenv" local 2.7.10 3.5.2 3.4.5 3.3.6 pypy-4.0.1
   - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter coveralls 
   - pip install tox
   
