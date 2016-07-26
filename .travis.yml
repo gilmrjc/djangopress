@@ -1,3 +1,5 @@
+language: python
+
 install:
   - export PYENV_ROOT="$HOME/.pyenv"
   - |
@@ -16,7 +18,7 @@ install:
   - "$PYENV_ROOT/bin/pyenv" install -s 3.3.6
   - "$PYENV_ROOT/bin/pyenv" install -s pypy-4.0.1
   - "$PYENV_ROOT/bin/pyenv" rehash
-  - "$PYENV_ROOT/bin/pyenv" local 2.7.10 3.5.2 3.4.5 3.3.6 pypy-4.0.1
+  - "$PYENV_ROOT/bin/pyenv" local system 2.7.10 3.5.2 3.4.5 3.3.6 pypy-4.0.1
   - pip install coverage django-coverage-plugin codacy-coverage codeclimate-test-reporter coveralls 
   - pip install tox
   
