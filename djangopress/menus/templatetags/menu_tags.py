@@ -11,4 +11,7 @@ register = template.Library()
 def menu(menu_name):
     """Menu templatetag."""
     menu_object = Menu.objects.get(name=menu_name)
-    return {'menu_items': menu_object.menuitem_set.all()}
+    items = menu_object.items.filter(parent__isnull=True)
+    for item in items:
+        item.show_dropdown = True if item.subitems.all() else False
+    return {'menu_items': items}

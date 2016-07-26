@@ -1,5 +1,6 @@
 """Models for menu app."""
 from __future__ import unicode_literals
+import re
 from django.utils.encoding import python_2_unicode_compatible
 
 from django.db import models
@@ -20,15 +21,21 @@ class Menu(models.Model):
 class MenuItem(models.Model):
     """MenuItem model."""
     menu = models.ForeignKey('Menu',
-                             on_delete=models.CASCADE
+                             on_delete=models.CASCADE,
+                             related_name='items',
                              )
     parent = models.ForeignKey('self',
                                on_delete=models.CASCADE,
+                               related_name='subitems',
                                blank=True,
                                null=True,
                                )
     name = models.CharField(max_length=255)
-    target = models.CharField(max_length=255)
+    target = models.CharField(max_length=255,
+                              blank=True,
+                              null=True
+                              )
+    separator = models.BooleanField(default=False)
 
     def __str__(self):
         """String representation of MenuItem."""
@@ -37,7 +44,12 @@ class MenuItem(models.Model):
     def get_absolute_url(self):
         """Get the absolute url of MenuItem target."""
         try:
-            url = reverse(self.target)
+            target, *args = re.split(';', self.target)
+            kwargs = {}
+            for arg in args:
+                key, value = re.split('=', arg)
+                kwargs[key] = value
+            url = reverse(target, kwargs=kwargs)
         except NoReverseMatch:
-            url = self.target
+            url = self.target or '#'
         return url
