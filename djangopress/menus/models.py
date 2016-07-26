@@ -44,7 +44,7 @@ class MenuItem(models.Model):
     def get_absolute_url(self):
         """Get the absolute url of MenuItem target."""
         target, _, args = self.target.partition(';')
-        args = re.split(';', args)
+        args = re.split(';', args) if args else []
         kwargs = {}
         for arg in args:
             key, value = re.split('=', arg)
