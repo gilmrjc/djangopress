@@ -7,8 +7,8 @@ from model_mommy import mommy
 from django.template import Template, Context
 
 from djangopress.blog.models import Post, Category
-from djangopress.templatetags.djangopress_tags import archive_list
-from djangopress.templatetags.djangopress_tags import category_list
+from djangopress.core.templatetags.djangopress_tags import archive_list
+from djangopress.core.templatetags.djangopress_tags import category_list
 
 
 def random_date(start, end):
