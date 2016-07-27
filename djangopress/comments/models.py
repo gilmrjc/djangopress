@@ -5,7 +5,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from django.utils.timezone import now
 
-from djangopress.core.models import Post
+from djangopress.blog.models import Post
 
 
 @python_2_unicode_compatible

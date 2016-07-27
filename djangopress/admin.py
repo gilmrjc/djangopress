@@ -1,5 +1,6 @@
 from django.contrib import admin
-from djangopress.core.models import Post, Option, Category
+from djangopress.blog.models import Post, Category
+from djangopress.core.models import Option
 
 admin.site.register(Option)
 admin.site.register(Post)
