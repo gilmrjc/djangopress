@@ -1,6 +1,20 @@
-image: gilmrjc/all-py
-
 before_script:
+  - |
+      export PYENV_ROOT="$HOME/.pyenv"
+      if [ -f "$PYENV_ROOT/bin/pyenv" ]; then
+        pushd "$PYENV_ROOT" && git pull && popd
+      else
+        rm -rf "$PYENV_ROOT" && git clone --depth 1 https://github.com/yyuu/pyenv.git "$PYENV_ROOT"
+      fi
+      export PATH="$HOME/.pyenv/bin:$PATH"
+      eval "$(pyenv init -)"
+      pyenv install -s 2.7.12
+      pyenv install -s 3.5.2
+      pyenv install -s 3.4.5
+      pyenv install -s 3.3.6
+      pyenv install -s pypy-4.0.1
+      pyenv rehash
+      pyenv global 2.7.12 3.5.2 3.4.5 3.3.6 pypy-4.0.1
   - pip install coverage django-coverage-plugin
   - pip install tox
 
@@ -11,4 +25,4 @@ after_script:
 testing:
   script:
     - coverage erase
-    - tox --skip-missing
+    - tox --skip-missing 
