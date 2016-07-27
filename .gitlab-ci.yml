@@ -1,15 +1,12 @@
 image: gilmrjc/all-py
 
 before_script:
-  - pip install wheel
-  - pip3 install wheel
   - pip install coverage django-coverage-plugin
   - pip install tox
 
 after_script:
   - coverage combine
-  - coverage report
-  - coverage xml
+  - coverage report --fail-under 80
 
 testing:
   script:
