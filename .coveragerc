@@ -4,12 +4,10 @@ branch = True
 plugins =
     django_coverage_plugin
 parallel = True
+
 [report]
 show_missing = True
 fail_under = 80
 omit =
-    manage.py
     */apps.py
     */migrations/*
-    */settings.py
-    */wsgi.py
