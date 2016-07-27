@@ -1,4 +1,4 @@
-{% load djangopress_tags %}
+{% load blog_tags djangopress_tags %}
 {% for post in posts %}
 <div class="blog-post" id="post-{{ post.pk }}">
   {% with post_url=post.get_absolute_url %}

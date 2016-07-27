@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="col-sm-8 blog-main">
-  {% include 'djangopress/includes/posts_list.html' with posts=posts %}
+  {% include 'blog/includes/posts_list.html' with posts=posts %}
   {% if is_paginated %}
     <nav>
       <ul class="pager">

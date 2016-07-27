@@ -26,6 +26,10 @@ class Post(models.Model):
     slug = models.SlugField(max_length=100, blank=True)
     content = models.TextField(blank=True, null=True)
     excerpt = models.TextField(blank=True, null=True)
+    featured_image = models.ImageField(upload_to='post_covers',
+                                       blank=True,
+                                       null=True
+                                       )
     creation_date = models.DateTimeField(blank=True, default=now)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     modified_date = models.DateTimeField(editable=False)

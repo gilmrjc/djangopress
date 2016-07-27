@@ -16,3 +16,4 @@ media
 .coverage.*
 djangopress/templates/djangopress/dashboard/
 .python-version
+media

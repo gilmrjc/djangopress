@@ -7,8 +7,8 @@ from model_mommy import mommy
 from django.template import Template, Context
 
 from djangopress.blog.models import Post, Category
-from djangopress.core.templatetags.djangopress_tags import archive_list
-from djangopress.core.templatetags.djangopress_tags import category_list
+from djangopress.blog.templatetags.blog_tags import archive_list
+from djangopress.blog.templatetags.blog_tags import category_list
 
 
 def random_date(start, end):
@@ -37,7 +37,7 @@ def test_archive_list_tag(mocker):
     """Test the archive_list tag."""
     create_uncategorized_category(mocker)
     create_post(mocker)
-    template_snippet = '{% load djangopress_tags %}{% archive_list %}'
+    template_snippet = '{% load blog_tags %}{% archive_list %}'
     Template(template_snippet).render(Context({}))
 
 
@@ -97,7 +97,7 @@ def test_category_list_tag(mocker):
     """Test category list templatetag"""
     create_uncategorized_category(mocker)
     create_post(mocker)
-    template_snippet = '{% load djangopress_tags %}{% category_list %}'
+    template_snippet = '{% load blog_tags %}{% category_list %}'
     Template(template_snippet).render(Context({}))
 
 
