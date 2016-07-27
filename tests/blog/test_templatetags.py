@@ -1,5 +1,6 @@
-"""Test djangopress templatetags."""
-from random import randint
+"""Test blog templatetags."""
+import string
+from random import randint, choice
 from datetime import date, timedelta
 
 from model_mommy import mommy
@@ -9,6 +10,7 @@ from django.template import Template, Context
 from djangopress.blog.models import Post, Category
 from djangopress.blog.templatetags.blog_tags import archive_list
 from djangopress.blog.templatetags.blog_tags import category_list
+from djangopress.blog.templatetags.blog_tags import recent_posts
 
 
 def random_date(start, end):
@@ -16,6 +18,11 @@ def random_date(start, end):
     days = int((end - start).days)
     random_delta = timedelta(days=randint(0, days))
     return start + random_delta
+
+
+def random_string():
+    """Generate a random string."""
+    return ''.join(choice(string.ascii_letters) for _ in range(20))
 
 
 def create_uncategorized_category(mocker):
@@ -28,8 +35,12 @@ def create_uncategorized_category(mocker):
 
 def create_post(mocker, posts=20):
     """Create the posts objects."""
+    mocker.patch('django.db.models.Model.save')
     posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts = mommy.prepare(Post, _quantity=posts)
+    for post in posts:
+        post.title = random_string()
+        post.save()
     posts_mock.return_value = posts
 
 
@@ -39,13 +50,6 @@ def test_archive_list_tag(mocker):
     create_post(mocker)
     template_snippet = '{% load blog_tags %}{% archive_list %}'
     Template(template_snippet).render(Context({}))
-
-
-def test_archive_list_dictionary(mocker):
-    """Test the dictionary of archive list."""
-    create_uncategorized_category(mocker)
-    create_post(mocker)
-    assert isinstance(archive_list(), dict)
 
 
 def test_archive_list_posts(mocker):
@@ -80,32 +84,24 @@ def test_archive_list_posts(mocker):
     dictionary = {}
     dates_dictionary = {}
     dates_dictionary['2016'] = []
-    dates_dictionary['2016'].append(date(2016, 2, 1))
-    dates_dictionary['2016'].append(date(2016, 3, 1))
-    dates_dictionary['2016'].append(date(2016, 4, 1))
-    dates_dictionary['2016'].append(date(2016, 5, 1))
-    dates_dictionary['2016'].append(date(2016, 6, 1))
-    dates_dictionary['2016'].append(date(2016, 7, 1))
-    dates_dictionary['2016'].append(date(2016, 8, 1))
     dates_dictionary['2016'].append(date(2016, 9, 1))
-    dates_dictionary['2016'].sort(reverse=True)
+    dates_dictionary['2016'].append(date(2016, 8, 1))
+    dates_dictionary['2016'].append(date(2016, 7, 1))
+    dates_dictionary['2016'].append(date(2016, 6, 1))
+    dates_dictionary['2016'].append(date(2016, 5, 1))
+    dates_dictionary['2016'].append(date(2016, 4, 1))
+    dates_dictionary['2016'].append(date(2016, 3, 1))
+    dates_dictionary['2016'].append(date(2016, 2, 1))
     dictionary['years'] = dates_dictionary
     assert archive_list() == dictionary
 
 
 def test_category_list_tag(mocker):
-    """Test category list templatetag"""
+    """Test category list templatetag."""
     create_uncategorized_category(mocker)
     create_post(mocker)
     template_snippet = '{% load blog_tags %}{% category_list %}'
     Template(template_snippet).render(Context({}))
-
-
-def test_category_list_dictionary(mocker):
-    """Test the dictionary of archive list."""
-    create_uncategorized_category(mocker)
-    create_post(mocker)
-    assert isinstance(category_list(), dict)
 
 
 def test_category_list_content(mocker):
@@ -119,3 +115,25 @@ def test_category_list_content(mocker):
     dictionary = {}
     dictionary['categories'] = categories
     assert category_list() == dictionary
+
+
+def test_recet_post_tag(mocker):
+    """Test recent posts templatetag."""
+    create_post(mocker)
+    template_snippet = '{% load blog_tags %}{% recent_posts %}'
+    Template(template_snippet).render(Context({}))
+
+
+def test_recent_posts_content(mocker):
+    """Test the dictionary contains the recent posts."""
+    create_post(mocker)
+    dictionary = recent_posts()
+    assert len(dictionary['posts']) == 5
+
+
+def test_recent_posts_custom_content(mocker):
+    """Test the dictionary contains a custom amount of posts."""
+    create_post(mocker)
+    num_posts = randint(1, 20)
+    dictionary = recent_posts(num_posts)
+    assert len(dictionary['posts']) == num_posts

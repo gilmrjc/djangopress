@@ -38,7 +38,7 @@ def category_list():
 
 
 @register.inclusion_tag('blog/tags/recent_posts.html')
-def recent_posts():
+def recent_posts(num_posts=5):
     """List the recent posts."""
-    posts = Post.objects.all()[:5]
+    posts = Post.objects.all()[:num_posts]
     return {'posts': posts}

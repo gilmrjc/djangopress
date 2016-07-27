@@ -52,7 +52,7 @@ class Post(models.Model):
             self.slug = slugify(self.title)
         elif self.slug:
             self.slug = self.slug
-        elif not self.slug:
+        else:
             assert ValueError
         self.modified_date = now()
         super(Post, self).save(*args, **kwargs)

@@ -1,6 +1,5 @@
-"""Test djangopress views."""
+"""Test blog views."""
 import random
-import pytest
 try:
     from unittest.mock import Mock, PropertyMock
 except ImportError:
@@ -50,28 +49,24 @@ def post_list_response(rf, mocker, posts=5):
     return response
 
 
-@pytest.mark.django_db
 def test_post_list(rf, mocker):
     """Test PostList works."""
     response = post_list_response(rf, mocker)
     assert response.status_code == 200
 
 
-@pytest.mark.django_db
 def test_post_list_posts_in_context(rf, mocker):
     """Test Homeview context contains the posts."""
     response = post_list_response(rf, mocker)
     assert 'posts' in response.context_data
 
 
-@pytest.mark.django_db
 def test_post_list_pagination(rf, mocker):
     """Test Homeview paginates content."""
     response = post_list_response(rf, mocker)
     assert 'is_paginated' in response.context_data
 
 
-@pytest.mark.django_db
 def test_post_list_pagination_2_posts(rf, mocker):
     """Test PostList paginates content based on the number of posts."""
     response = post_list_response(rf, mocker, 2)
@@ -84,7 +79,6 @@ def test_post_list_pagination_6_posts(rf, mocker):
     assert response.context_data['is_paginated']
 
 
-@pytest.mark.django_db
 def test_post_list_custom_pagination(rf, mocker):
     """Test a custom pagination value."""
     general_options(mocker)
@@ -111,7 +105,6 @@ def test_post_list_custom_pagination_pag(rf, mocker):
     assert response.context_data['is_paginated']
 
 
-@pytest.mark.django_db
 def test_post_list_pagination_pages(rf, mocker):
     """Test the pagination of the homepage."""
     general_options(mocker)
@@ -122,7 +115,6 @@ def test_post_list_pagination_pages(rf, mocker):
     assert response.context_data['page_obj'].number == 2
 
 
-@pytest.mark.django_db
 def test_bad_pagination_option(rf, mocker):
     """Test the behaviour when a bad pagination option is given."""
     mocker.patch('djangopress.blog.views.Option.objects.get_or_create',
@@ -139,7 +131,6 @@ def test_bad_pagination_option(rf, mocker):
     assert 'is_paginated' in response.context_data
 
 
-@pytest.mark.django_db
 def test_default_pagination_value(rf, mocker):
     """Test the default value when a bad pagination option is given."""
     mocker.patch('djangopress.blog.views.Option.objects.get_or_create',
@@ -156,7 +147,6 @@ def test_default_pagination_value(rf, mocker):
     assert response.context_data['paginator'].per_page == 5
 
 
-@pytest.mark.django_db
 def post_view_response(rf, mocker, posts=5):
     """Generate a PostDetail response object."""
     general_options(mocker)
@@ -173,21 +163,18 @@ def post_view_response(rf, mocker, posts=5):
     return response
 
 
-@pytest.mark.django_db
 def test_post_view(rf, mocker):
     """Test PostDetail works."""
     response = post_view_response(rf, mocker)
     assert response.status_code == 200
 
 
-@pytest.mark.django_db
 def test_post_view_posts_in_context(rf, mocker):
     """Test PostDetail context contains the posts."""
     response = post_view_response(rf, mocker)
     assert 'post' in response.context_data
 
 
-@pytest.mark.django_db
 def month_archive_view_response(rf, mocker, posts=5):
     """Generate a PostDetail response object."""
     general_options(mocker)
@@ -205,14 +192,12 @@ def month_archive_view_response(rf, mocker, posts=5):
     return response
 
 
-@pytest.mark.django_db
 def test_month_archive_view(rf, mocker):
     """Test the month archive view."""
     response = month_archive_view_response(rf, mocker)
     assert response.status_code == 200
 
 
-@pytest.mark.django_db
 def test_month_archive_posts_context(rf, mocker):
     """Test PostDetail context contains the posts."""
     response = month_archive_view_response(rf, mocker)
