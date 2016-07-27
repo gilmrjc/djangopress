@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'djangopress.pages',
     'djangopress.menus',
     'djangopress.blog',
+    'blogproject',
 ]
 
 MIDDLEWARE_CLASSES = [
