@@ -21,10 +21,10 @@ install:
 script:
   - coverage erase
   - tox --skip-missing
-  
-after_success:
   - coverage combine
   - coverage report --fail-under 80
+  
+after_success:
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   - codeclimate-test-reporter
