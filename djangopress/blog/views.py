@@ -3,7 +3,9 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.dates import MonthArchiveView
 
-from djangopress.models import Post, Option
+from djangopress.core.models import Option
+
+from .models import Post
 
 
 class PostList(ListView):  # pylint:disable=too-many-ancestors

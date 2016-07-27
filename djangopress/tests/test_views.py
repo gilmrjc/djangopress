@@ -1,5 +1,6 @@
 """Test djangopress views."""
 import random
+import pytest
 try:
     from unittest.mock import Mock, PropertyMock
 except ImportError:
@@ -10,8 +11,8 @@ from model_mommy import mommy
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
-from djangopress.views import PostList, PostDetail, MonthArchive
-from djangopress.models import Post, Category
+from djangopress.blog.views import PostList, PostDetail, MonthArchive
+from djangopress.blog.models import Post, Category
 
 
 def option_get_or_create_stub(number):
@@ -30,10 +31,10 @@ def option_get_or_create_stub(number):
 
 def general_options(mocker):
     """Generate the general options needed for the pages."""
-    mocker.patch('djangopress.views.Option.objects.get_or_create',
+    mocker.patch('djangopress.blog.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub(5)
                  )
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.blog.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None
@@ -42,31 +43,35 @@ def general_options(mocker):
 def post_list_response(rf, mocker, posts=5):
     """Generate a PostList response object."""
     general_options(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=posts)
     request = rf.get(reverse('djangopress:home'))
     response = PostList.as_view()(request)
     return response
 
 
+@pytest.mark.django_db
 def test_post_list(rf, mocker):
     """Test PostList works."""
     response = post_list_response(rf, mocker)
     assert response.status_code == 200
 
 
+@pytest.mark.django_db
 def test_post_list_posts_in_context(rf, mocker):
     """Test Homeview context contains the posts."""
     response = post_list_response(rf, mocker)
     assert 'posts' in response.context_data
 
 
+@pytest.mark.django_db
 def test_post_list_pagination(rf, mocker):
     """Test Homeview paginates content."""
     response = post_list_response(rf, mocker)
     assert 'is_paginated' in response.context_data
 
 
+@pytest.mark.django_db
 def test_post_list_pagination_2_posts(rf, mocker):
     """Test PostList paginates content based on the number of posts."""
     response = post_list_response(rf, mocker, 2)
@@ -79,10 +84,11 @@ def test_post_list_pagination_6_posts(rf, mocker):
     assert response.context_data['is_paginated']
 
 
+@pytest.mark.django_db
 def test_post_list_custom_pagination(rf, mocker):
     """Test a custom pagination value."""
     general_options(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=3)
     request = rf.get(reverse('djangopress:home'))
     response = PostList.as_view()(request)
@@ -91,62 +97,66 @@ def test_post_list_custom_pagination(rf, mocker):
 
 def test_post_list_custom_pagination_pag(rf, mocker):
     """Test a custom pagination value."""
-    mocker.patch('djangopress.views.Option.objects.get_or_create',
+    mocker.patch('djangopress.blog.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub('3')
                  )
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.blog.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=4)
     request = rf.get(reverse('djangopress:home'))
     response = PostList.as_view()(request)
     assert response.context_data['is_paginated']
 
 
+@pytest.mark.django_db
 def test_post_list_pagination_pages(rf, mocker):
     """Test the pagination of the homepage."""
     general_options(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=6)
     request = rf.get(reverse('djangopress:page', kwargs={'page': 2}))
     response = PostList.as_view()(request, page=2)
     assert response.context_data['page_obj'].number == 2
 
 
+@pytest.mark.django_db
 def test_bad_pagination_option(rf, mocker):
     """Test the behaviour when a bad pagination option is given."""
-    mocker.patch('djangopress.views.Option.objects.get_or_create',
+    mocker.patch('djangopress.blog.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub('a')
                  )
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.blog.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=6)
     request = rf.get(reverse('djangopress:home'))
     response = PostList.as_view()(request)
     assert 'is_paginated' in response.context_data
 
 
+@pytest.mark.django_db
 def test_default_pagination_value(rf, mocker):
     """Test the default value when a bad pagination option is given."""
-    mocker.patch('djangopress.views.Option.objects.get_or_create',
+    mocker.patch('djangopress.blog.views.Option.objects.get_or_create',
                  new=option_get_or_create_stub('a')
                  )
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.blog.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts_mock.return_value = mommy.prepare(Post, _quantity=6)
     request = rf.get(reverse('djangopress:home'))
     response = PostList.as_view()(request)
     assert response.context_data['paginator'].per_page == 5
 
 
+@pytest.mark.django_db
 def post_view_response(rf, mocker, posts=5):
     """Generate a PostDetail response object."""
     general_options(mocker)
@@ -154,34 +164,39 @@ def post_view_response(rf, mocker, posts=5):
     for post in posts_list:
         post.slug = slugify(post.title)
     post = random.choice(posts_list)
-    get_object_mock = mocker.patch('djangopress.views.PostDetail.get_object')
+    get_object_mock = mocker.patch(
+        'djangopress.blog.views.PostDetail.get_object'
+        )
     get_object_mock.return_value = post
     request = rf.get(reverse('djangopress:post', kwargs={'slug': post.slug}))
     response = PostDetail.as_view()(request, slug=post.slug)
     return response
 
 
+@pytest.mark.django_db
 def test_post_view(rf, mocker):
     """Test PostDetail works."""
     response = post_view_response(rf, mocker)
     assert response.status_code == 200
 
 
+@pytest.mark.django_db
 def test_post_view_posts_in_context(rf, mocker):
     """Test PostDetail context contains the posts."""
     response = post_view_response(rf, mocker)
     assert 'post' in response.context_data
 
 
+@pytest.mark.django_db
 def month_archive_view_response(rf, mocker, posts=5):
     """Generate a PostDetail response object."""
     general_options(mocker)
-    posts_mock = mocker.patch('djangopress.models.Post.objects.all')
+    posts_mock = mocker.patch('djangopress.blog.models.Post.objects.all')
     posts_list = mommy.prepare(Post, _quantity=posts)
     posts_mock.return_value = posts_list
-    mocker.patch('djangopress.views.MonthArchive.get_ordering')
-    mocker.patch('djangopress.views.MonthArchive.get_dated_queryset')
-    mocker.patch('djangopress.views.MonthArchive.get_date_list')
+    mocker.patch('djangopress.blog.views.MonthArchive.get_ordering')
+    mocker.patch('djangopress.blog.views.MonthArchive.get_dated_queryset')
+    mocker.patch('djangopress.blog.views.MonthArchive.get_date_list')
     mocker.patch('django.views.generic.dates._get_next_prev')
     request = rf.get(reverse('djangopress:month_archive',
                              kwargs={'year': 2016, 'month': 5})
@@ -190,12 +205,14 @@ def month_archive_view_response(rf, mocker, posts=5):
     return response
 
 
+@pytest.mark.django_db
 def test_month_archive_view(rf, mocker):
     """Test the month archive view."""
     response = month_archive_view_response(rf, mocker)
     assert response.status_code == 200
 
 
+@pytest.mark.django_db
 def test_month_archive_posts_context(rf, mocker):
     """Test PostDetail context contains the posts."""
     response = month_archive_view_response(rf, mocker)

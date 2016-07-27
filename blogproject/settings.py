@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'djangopress',
+    'djangopress.core',
     'djangopress.comments',
     'djangopress.pages',
     'djangopress.menus',
+    'djangopress.blog',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -69,7 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'djangopress.context_processors.settings',
+                'djangopress.core.context_processors.settings',
             ],
         },
     },

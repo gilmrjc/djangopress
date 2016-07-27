@@ -10,7 +10,7 @@ from django.utils.text import normalize_newlines
 from django.utils.safestring import SafeData, mark_safe
 from django.template.defaultfilters import stringfilter
 
-from djangopress.models import Post, Category
+from djangopress.core.models import Post, Category
 
 
 register = template.Library()

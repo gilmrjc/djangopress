@@ -1,16 +1,16 @@
-"""Test for djangopress models."""
+"""Test for djangopress.core.models."""
 import pytest
 from model_mommy import mommy
 
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-from djangopress.models import Post, Option, Category
+from djangopress.core.models import Post, Option, Category
 
 
 def test_post_str(mocker):
     """Test string representation for Post object."""
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.core.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category_mock.get_or_create.return_value = category, None
     post = mommy.prepare(Post)
@@ -20,7 +20,7 @@ def test_post_str(mocker):
 def test_post_slug(mocker):
     """Test post slug is equal to post titlepost title slugified."""
     save = mocker.patch('django.db.models.Model.save', autospec=True)
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.core.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category_mock.get_or_create.return_value = category, None
     post = mommy.make(Post)
@@ -28,10 +28,11 @@ def test_post_slug(mocker):
     assert post.slug == slugify(post.title)
 
 
+@pytest.mark.django_db
 def test_post_absolute_url(mocker):
     """Test post's absolute url."""
     mocker.patch('django.db.models.Model.save', autospec=True)
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.core.models.Category.objects')
     category = mommy.prepare(Category, name='Uncategorized')
     category_mock.get_or_create.return_value = category, None
     post = mommy.make(Post)
@@ -46,6 +47,7 @@ def test_option_str():
     assert str(option) == option.name
 
 
+@pytest.mark.django_db
 def test_category_str():
     """Test string representation for Category object."""
     category = mommy.prepare(Category)
@@ -56,7 +58,7 @@ def test_category_str():
 def test_default_category(mocker):
     """Test default category is 'Uncategorized'."""
     # mocker.patch('django.db.models.Model.save', autospec=True)
-    category_mock = mocker.patch('djangopress.models.Category.objects')
+    category_mock = mocker.patch('djangopress.core.models.Category.objects')
     category = mommy.make(Category, name='Uncategorized')
     category.pk = 1
     category_mock.get_or_create.return_value = category, None

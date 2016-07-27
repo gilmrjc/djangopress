@@ -25,7 +25,8 @@ class Post(models.Model):
                       )
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               on_delete=models.CASCADE
+                               on_delete=models.CASCADE,
+                               related_name='+'
                                )
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True)

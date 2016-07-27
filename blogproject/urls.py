@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('djangopress.urls', 'djangopress', 'djangopress')),
+    url(r'^', include('djangopress.blog.urls', 'djangopress', 'djangopress')),
 ]
