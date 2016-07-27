@@ -7,7 +7,7 @@ from djangopress.blog.models import Post
 from djangopress.comments.templatetags.comments_tags import show_comments
 
 
-def test_show_comments_tag(mocker):
+def test_show_comments_tag():
     """Test the archive_list tag."""
     post = mommy.prepare(Post)
     post.comment_set.all = []
