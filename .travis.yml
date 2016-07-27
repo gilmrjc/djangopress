@@ -24,7 +24,7 @@ script:
   
 after_success:
   - coverage combine
-  - coverage report
+  - coverage report --fail-under 80
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   - codeclimate-test-reporter
